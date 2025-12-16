@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCoach Pro - Personal Fitness Coaching</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
+            color: white;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: #22d3ee;
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #22d3ee, #3b82f6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #06b6d4, #2563eb);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        /* Programs Section */
+        .programs-section {
+            padding: 5rem 1rem;
+            background-color: rgba(31, 41, 55, 0.5);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #9ca3af;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .program-card {
+            background-color: #111827;
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid #374151;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .program-card:hover {
+            transform: scale(1.05);
+            border-color: #4b5563;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .program-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .program-description {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            color: #d1d5db;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-icon {
+            color: #22d3ee;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .btn-program {
+            width: 100%;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-program:hover {
+            opacity: 0.9;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 1.125rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 1rem;
+            background: linear-gradient(to right, #0891b2, #1d4ed8);
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-text {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #ecfeff;
+        }
+
+        .btn-cta {
+            background-color: white;
+            color: #1d4ed8;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cta:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111827;
+            padding: 2rem 1rem;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Detail Pages */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: #9ca3af;
+        }
+
+        .breadcrumb a {
+            color: #9ca3af;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .breadcrumb a:hover {
+            color: #22d3ee;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .page-intro {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 3rem;
+            max-width: 48rem;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .detail-card {
+            background-color: #111827;
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid #374151;
+        }
+
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-section p {
+            color: #9ca3af;
+        }
+
+        /* Download Section */
+        .download-section {
+            background: linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(29, 78, 216, 0.2));
+            border-top: 1px solid #374151;
+            border-bottom: 1px solid #374151;
+            padding: 5rem 1rem;
+            margin: 3rem 0;
+        }
+
+        .download-content {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .download-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .download-card {
+            background-color: #111827;
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid #374151;
+        }
+
+        .download-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .download-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+
+        .btn-download {
+            width: 100%;
+            background: linear-gradient(to right, #06b6d4, #2563eb);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #22d3ee;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            color: #06b6d4;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a class="logo" onclick="showPage('home')">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2">
+                    <path d="M6.5 6.5h.01M6.5 17.5h.01M17.5 6.5h.01M17.5 17.5h.01M9 12h6M12 9v6"/>
+                </svg>
+                <span class="logo-text">FitCoach Pro</span>
+            </a>
+            <div class="nav-links">
+                <a class="nav-link" onclick="showPage('home')">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Transform Your Body,<br>Transform Your Life</h1>
+                <p class="hero-subtitle">
+                    Professional personal training tailored to your goals. Start your fitness journey with expert guidance and proven results.
+                </p>
+                <button class="btn-primary" onclick="document.getElementById('programs').scrollIntoView({behavior: 'smooth'})">
+                    Explore Programs →
+                </button>
+            </div>
+        </section>
+
+        <section id="programs" class="programs-section">
+            <div class="section-header">
+                <h2 class="section-title">Our Programs</h2>
+                <p class="section-subtitle">Choose the path that fits your fitness goals</p>
+            </div>
+
+            <div class="programs-grid">
+                <div class="program-card" onclick="showPage('weight-loss')">
+                    <div class="icon-box" style="background: linear-gradient(to bottom right, #a855f7, #ec4899);">⚖️</div>
+                    <h3 class="program-title">Weight Loss</h3>
+                    <p class="program-description">Achieve your ideal weight with personalized meal plans and targeted workouts designed for sustainable results.</p>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-icon">★</span> Custom nutrition plans</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Fat-burning workouts</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Progress tracking</li>
+                    </ul>
+                    <button class="btn-program" style="background: linear-gradient(to bottom right, #a855f7, #ec4899);">
+                        Learn More →
+                    </button>
+                </div>
+
+                <div class="program-card" onclick="showPage('muscle-build')">
+                    <div class="icon-box" style="background: linear-gradient(to bottom right, #3b82f6, #06b6d4);">💪</div>
+                    <h3 class="program-title">Muscle Build</h3>
+                    <p class="program-description">Build strength and sculpt your physique with progressive resistance training and optimal nutrition strategies.</p>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-icon">★</span> Strength training programs</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Muscle-gain nutrition</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Form coaching</li>
+                    </ul>
+                    <button class="btn-program" style="background: linear-gradient(to bottom right, #3b82f6, #06b6d4);">
+                        Learn More →
+                    </button>
+                </div>
+
+                <div class="program-card" onclick="showPage('stress-relief')">
+                    <div class="icon-box" style="background: linear-gradient(to bottom right, #10b981, #059669);">❤️</div>
+                    <h3 class="program-title">Stress Relief Program</h3>
+                    <p class="program-description">Find balance and peace through mindful movement, breathwork, and recovery-focused training sessions.</p>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-icon">★</span> Yoga & stretching</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Meditation guidance</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Recovery protocols</li>
+                    </ul>
+                    <button class="btn-program" style="background: linear-gradient(to bottom right, #10b981, #059669);">
+                        Learn More →
+                    </button>
+                </div>
+
+                <div class="program-card" onclick="showPage('exercises-anywhere')">
+                    <div class="icon-box" style="background: linear-gradient(to bottom right, #f97316, #ef4444);">📍</div>
+                    <h3 class="program-title">Exercises Anywhere</h3>
+                    <p class="program-description">Stay fit on the go with flexible workout routines that require minimal or no equipment, adaptable to any location.</p>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-icon">★</span> No-equipment workouts</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Travel-friendly routines</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Time-efficient sessions</li>
+                    </ul>
+                    <button class="btn-program" style="background: linear-gradient(to bottom right, #f97316, #ef4444);">
+                        Learn More →
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number" style="color: #22d3ee;">500+</div>
+                    <div class="stat-label">Clients Transformed</div>
+                </div>
+                <div>
+                    <div class="stat-number" style="color: #3b82f6;">10+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div>
+                    <div class="stat-number" style="color: #a855f7;">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Ready to Get Started?</h2>
+                <p class="cta-text">Book your free consultation today and take the first step towards your fitness goals.</p>
+                <button class="btn-cta">Book Free Consultation</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 FitCoach Pro. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- WEIGHT LOSS PAGE -->
+    <div id="weight-loss" class="page">
+        <div class="container" style="padding: 2rem 1rem 5rem;">
+            <div class="breadcrumb">
+                <a onclick="showPage('home')">Home</a> 
+                <span>›</span> 
+                <span>Weight Loss Program</span>
+            </div>
+
+            <div class="page-header">
+                <div class="page-icon" style="background: linear-gradient(to bottom right, #a855f7, #ec4899);">⚖️</div>
+                <h1 class="page-title" style="background: linear-gradient(to right, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Weight Loss Program
+                </h1>
+            </div>
+
+            <p class="page-intro">
+                Transform your body with our scientifically-backed weight loss program. Achieve sustainable results through personalized nutrition and effective workouts.
+            </p>
+
+            <div class="details-grid">
+                <div class="detail-card">
+                    <h3 class="detail-title" style="color: #a855f7;">What You'll Get</h3>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-icon">★</span> Customized meal plans tailored to your metabolism</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Fat-burning workout routines (3-5 times per week)</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Weekly progress tracking and adjustments</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> 24/7 support and accountability</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Supplement guidance and recommendations</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3 class="detail-title" style="color: #a855f7;">Program Highlights</h3>
+                    <div class="detail-section">
+                        <h4>Duration</h4>
+                        <p>12-week transformation program with flexible options</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Approach</h4>
+                        <p>Sustainable calorie deficit with macro tracking</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Expected Results</h4>
+                        <p>1-2 lbs per week of healthy, sustainable weight loss</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Equipment Needed</h4>
+                        <p>Basic home equipment or gym membership</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-section">
+                <div class="download-content">
+                    <div class="download-header">
+                        <h2 class="section-title">Download Your Free Guide</h2>
+                        <p class="section-subtitle">Get your comprehensive guide with meal plans, workout routines, and expert tips</p>
+                    </div>
+                    <div class="download-card">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem;">What's Inside:</h3>
+                        <ul class="download-list">
+                            <li class="download-item"><span class="feature-icon">★</span> 7-day meal plan with recipes and shopping lists</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Complete workout program with video demonstrations</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Calorie and macro calculation worksheets</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Progress tracking templates and measurements guide</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Common mistakes to avoid and success strategies</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Supplement recommendations and timing guide</li>
+                        </ul>
+                        <button class="btn-download" onclick="alert('Guide download started!')">
+                            📥 Download Complete Guide (PDF)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a class="back-button" onclick="showPage('home')">
+                    ← Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUSCLE BUILD PAGE -->
+    <div id="muscle-build" class="page">
+        <div class="container" style="padding: 2rem 1rem 5rem;">
+            <div class="breadcrumb">
+                <a onclick="showPage('home')">Home</a> 
+                <span>›</span> 
+                <span>Muscle Build Program</span>
+            </div>
+
+            <div class="page-header">
+                <div class="page-icon" style="background: linear-gradient(to bottom right, #3b82f6, #06b6d4);">💪</div>
+                <h1 class="page-title" style="background: linear-gradient(to right, #3b82f6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Muscle Build Program
+                </h1>
+            </div>
+
+            <p class="page-intro">
+                Build lean muscle mass and increase strength with our progressive resistance training program designed for maximum gains.
+            </p>
+
+            <div class="details-grid">
+                <div class="detail-card">
+                    <h3 class="detail-title" style="color: #3b82f6;">What You'll Get</h3>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-icon">★</span> Progressive overload training programs</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Muscle-building nutrition and meal timing</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Form coaching and technique refinement</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Strength tracking and performance metrics</li>
+                        <li class="feature-item"><span class="feature-icon">★</span> Recovery optimization strategies</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3 class="detail-title" style="color: #3b82f6;">Program Highlights</h3>
+                    <div class="detail-section">
+                        <h4>Duration</h4>
+                        <p>16-week muscle building program with phases</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Training Split</h4>
+                        <p>4-6 day push/pull/legs or upper/lower split</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Expected Results</h4>
+                        <p>2-4 lbs of lean muscle per month (beginners may see more)</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Equipment Needed</h4>
+                        <p>Full gym access with free weights and machines</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-section">
+                <div class="download-content">
+                    <div class="download-header">
+                        <h2 class="section-title">Download Your Free Guide</h2>
+                        <p class="section-subtitle">Everything you need to pack on lean muscle mass effectively</p>
+                    </div>
+                    <div class="download-card">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem;">What's Inside:</h3>
+                        <ul class="download-list">
+                            <li class="download-item"><span class="feature-icon">★</span> 12-week progressive training program with all exercises</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Muscle-building meal plans with bulking strategies</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Exercise library with proper form instructions</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Supplement stack recommendations for muscle growth</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Recovery and sleep optimization guide</li>
+                            <li class="download-item"><span class="feature-icon">★</span> Common training mistakes and how to avoid them</li>
+                        </ul>
+                        <button class="btn-download" onclick="alert('Guide download started!')">
+                            📥 Download Complete Guide (PDF)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a class="back-button" onclick="showPage('home')">
+                    ← Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRESS RELIEF PAGE -->
+    <div id="stress-relief" class="page">
+        <div class="container" style="padding: 2rem 1rem 5rem;">
+            <div class="breadcrumb">
+                <a onclick="showPage('home')">Home</a> 
+                <span>›</span> 
+                <span>Stress Relief Program</span>
+            </div>
+
+            <div class="page-header">
+                <div class="page-icon" style="background: linear-gradient(to bottom right, #10b981, #059669);">❤️</div>
+                <h1 class="page-title" style="background: linear-gradient(to right, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Stress Relief Program
+                </h1>
+            </div>
+
+            <p class="page-intro">
+                Find balance and inner peace through mindful movement, breathwork, and holistic wellness practices
