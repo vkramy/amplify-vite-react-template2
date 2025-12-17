@@ -46,7 +46,7 @@ const Home = () => {
         padding: '5rem 0'
       }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6">Transform Your Life with FitCoach Pro</h1>
+          <h1 className="text-5xl font-bold mb-6">Transform Your Life with BitFit Pro</h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
             Your personal fitness journey starts here. Choose from our specialized programs designed to help you achieve your health and fitness goals.
           </p>
@@ -116,7 +116,7 @@ const Home = () => {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose FitCoach Pro?</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose BitFit Pro?</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

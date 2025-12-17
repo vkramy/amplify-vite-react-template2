@@ -3,7 +3,7 @@ import { Download, MapPin, Clock, Zap } from 'lucide-react';
 const ExercisesAnywhere = () => {
   const handleDownload = () => {
     const guideContent = `
-EXERCISES ANYWHERE GUIDE - FitCoach Pro
+EXERCISES ANYWHERE GUIDE - BitFit Pro
 
 OVERVIEW:
 This comprehensive bodyweight exercise program is designed to help you stay fit anywhere, anytime. No equipment needed - just your body weight and a small space to move. Perfect for travel, home workouts, or when gym access is limited.
@@ -302,14 +302,14 @@ Remember: The best workout is the one you'll actually do. Start where you are, u
 
 For personalized bodyweight training programs and form coaching, consult with our certified fitness professionals.
 
-© FitCoach Pro - Fitness Freedom Anywhere, Anytime
+© BitFit Pro - Fitness Freedom Anywhere, Anytime
     `;
 
     const blob = new Blob([guideContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Exercises-Anywhere-Guide-FitCoach-Pro.txt';
+    a.download = 'Exercises-Anywhere-Guide-BitFit-Pro.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

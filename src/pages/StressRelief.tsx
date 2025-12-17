@@ -3,7 +3,7 @@ import { Download, Heart, Smile, Brain } from 'lucide-react';
 const StressRelief = () => {
   const handleDownload = () => {
     const guideContent = `
-STRESS RELIEF PROGRAM - FitCoach Pro
+STRESS RELIEF PROGRAM - BitFit Pro
 
 OVERVIEW:
 This comprehensive stress relief program combines physical exercise, mindfulness practices, and lifestyle modifications to help you manage stress, improve mental wellness, and enhance overall quality of life.
@@ -238,14 +238,14 @@ Remember: Stress relief is a skill that improves with practice. Be patient with 
 
 For personalized stress management coaching and mental wellness support, consult with our certified wellness professionals.
 
-© FitCoach Pro - Your Partner in Holistic Wellness
+© BitFit Pro - Your Partner in Holistic Wellness
     `;
 
     const blob = new Blob([guideContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Stress-Relief-Program-FitCoach-Pro.txt';
+    a.download = 'Stress-Relief-Program-BitFit-Pro.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

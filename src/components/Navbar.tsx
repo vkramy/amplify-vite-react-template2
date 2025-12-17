@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
             <Dumbbell className="h-8 w-8 text-blue-600" style={{ color: '#3564cbff' }} />
-            <span className="text-xl font-bold text-gray-800">FitCoach Pro</span>
+            <span className="text-xl font-bold text-gray-800">BitFit Pro</span>
           </Link>
           
           <div className="hidden md:flex space-x-8">

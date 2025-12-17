@@ -1,4 +1,4 @@
-# FitCoach Pro - Personal Fitness Coaching Website
+# BitFit Pro - Personal Fitness Coaching Website
 
 A modern, responsive React-based website for personal fitness coaching with four specialized programs: Weight Loss, Muscle Building, Stress Relief, and Exercises Anywhere.
 

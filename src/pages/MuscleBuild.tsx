@@ -23,7 +23,7 @@ const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
   const handleDownload = () => {
     const guideContent = `
-MUSCLE BUILDING GUIDE - Bitfit Pro
+MUSCLE BUILDING GUIDE - BitFit Pro
 
 OVERVIEW:
 This comprehensive muscle building program is designed to help you gain lean muscle mass, increase strength, and improve overall body composition through progressive resistance training and optimal nutrition.
@@ -151,7 +151,7 @@ For personalized training programs and form coaching, consult with our certified
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Muscle-Building-Guide-FitCoach-Pro.txt';
+    a.download = 'Muscle-Building-Guide-BitFit-Pro.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

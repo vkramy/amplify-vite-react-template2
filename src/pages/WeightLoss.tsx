@@ -4,7 +4,7 @@ const WeightLoss = () => {
   const handleDownload = () => {
     // Create a simple text file for the guide
     const guideContent = `
-WEIGHT LOSS GUIDE - FitCoach Pro
+WEIGHT LOSS GUIDE - BitFit Pro
 
 OVERVIEW:
 This comprehensive weight loss program is designed to help you lose weight safely and sustainably through a combination of proper nutrition, cardiovascular exercise, and strength training.
@@ -72,14 +72,14 @@ Remember: Sustainable weight loss is a marathon, not a sprint. Focus on building
 
 For personalized guidance and support, consult with our certified trainers and nutritionists.
 
-© FitCoach Pro - Your Partner in Health and Fitness
+© BitFit Pro - Your Partner in Health and Fitness
     `;
 
     const blob = new Blob([guideContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Weight-Loss-Guide-FitCoach-Pro.txt';
+    a.download = 'Weight-Loss-Guide-BitFit-Pro.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
