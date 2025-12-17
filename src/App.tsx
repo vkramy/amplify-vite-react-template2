@@ -8,6 +8,8 @@ import ExercisesAnywhere from './pages/ExercisesAnywhere.tsx';
 import './App.css';
 
 function App() {
+
+  
   return (
     <Router>
       <div className="min-h-screen bg-gray-50" style={{
