@@ -1,9 +1,30 @@
 import { Download, Target, Clock, TrendingDown } from 'lucide-react';
+import configData from '../config.json';
+
+// Type definition for config data
+interface ConfigData {
+  downloadUrls: {
+    weightLoss: string;
+    muscleBuild: string;
+    stressRelief: string;
+    exercisesAnywhere: string;
+  };
+  timeout: number;
+  fallbackToTextFile: boolean;
+}
 
 const WeightLoss = () => {
   const handleDownload = () => {
-    // Create a simple text file for the guide
-    const guideContent = `
+    // Get the download URL from config
+    const config = configData as ConfigData;
+    const downloadUrl = config.downloadUrls.weightLoss;
+    console.log(downloadUrl);
+    if (downloadUrl && downloadUrl.trim() !== '') {
+      // If URL is provided in config, redirect to that URL
+      window.open(downloadUrl, '_blank');
+    } else if (config.fallbackToTextFile) {
+      // Fallback: Create a simple text file for the guide
+      const guideContent = `
 WEIGHT LOSS GUIDE - BitFit Pro
 
 OVERVIEW:
@@ -73,17 +94,21 @@ Remember: Sustainable weight loss is a marathon, not a sprint. Focus on building
 For personalized guidance and support, consult with our certified trainers and nutritionists.
 
 © BitFit Pro - Your Partner in Health and Fitness
-    `;
+      `;
 
-    const blob = new Blob([guideContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Weight-Loss-Guide-BitFit-Pro.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      const blob = new Blob([guideContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Weight-Loss-Guide-BitFit-Pro.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } else {
+      // No URL provided and fallback disabled
+      alert('Download is currently unavailable. Please try again later.');
+    }
   };
 
   return (

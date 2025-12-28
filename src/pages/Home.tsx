@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Target, Zap, Heart, MapPin } from 'lucide-react';
+import { Target, Zap, Heart, MapPin, BookOpen } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Home = () => {
+  const { user } = useAuth();
+  
   const programs = [
     {
       id: 1,
@@ -39,34 +42,23 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20" style={{
-        background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
-        color: 'white',
-        padding: '5rem 0'
-      }}>
+      <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6">Transform Your Life with BitFit Pro</h1>
+          <h1 className="text-5xl font-bold mb-6">
+            {user ? 'Welcome back to BitFit Pro!' : 'Transform Your Life with BitFit Pro'}
+          </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Your personal fitness journey starts here. Choose from our specialized programs designed to help you achieve your health and fitness goals.
+            {user 
+              ? 'Continue your fitness journey with our specialized programs designed to help you achieve your goals.'
+              : 'Your personal fitness journey starts here. Choose from our specialized programs designed to help you achieve your health and fitness goals.'
+            }
           </p>
-          <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors" style={{
-            backgroundColor: 'white',
-            color: '#2563eb',
-            padding: '0.75rem 2rem',
-            borderRadius: '0.5rem',
-            fontWeight: '600',
-            fontSize: '1.125rem',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease'
-          }}>
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
             Start Your Journey
           </button>
         </div>
       </section>
 
-      {/* Programs Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -86,17 +78,10 @@ const Home = () => {
                   className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                 >
                   <div className="p-8 text-center">
-                    <div className={`${program.color} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform`} style={{
-                      width: '4rem',
-                      height: '4rem',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: '0 auto 1.5rem auto',
-                      backgroundColor: program.id === 1 ? '#ef4444' : program.id === 2 ? '#3b82f6' : program.id === 3 ? '#10b981' : '#8b5cf6',
-                      transition: 'transform 0.3s ease'
-                    }}>
+                    <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform"
+                         style={{
+                           backgroundColor: program.id === 1 ? '#ef4444' : program.id === 2 ? '#3b82f6' : program.id === 3 ? '#10b981' : '#8b5cf6'
+                         }}>
                       <IconComponent className="h-8 w-8 text-white" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4">{program.title}</h3>
@@ -112,7 +97,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -146,8 +130,29 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Latest from Our Blog</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Stay updated with the latest fitness tips, nutrition advice, and wellness insights from our expert team.
+            </p>
+          </div>
+          
+          <div className="flex justify-center">
+            <Link
+              to="/blog"
+              className="group bg-gradient-to-r from-blue-600 to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex items-center space-x-3"
+            >
+              <BookOpen className="h-6 w-6" />
+              <span>Explore Our Blog</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default Home;
+export { Home as default };
