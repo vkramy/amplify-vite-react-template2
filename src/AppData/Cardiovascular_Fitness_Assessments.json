@@ -1,0 +1,732 @@
+{
+  "metadata": {
+    "title": "Cardiovascular Fitness Assessments",
+    "description": "Comprehensive testing protocols and standards for cardiovascular fitness",
+    "created": "2025-12-29T05:52:36.332Z",
+    "version": "1.0"
+  },
+  "rockportWalkTest": {
+    "description": "Walk 1 mile as fast as possible and measure heart rate immediately after finishing",
+    "maleStandards": [
+      {
+        "Age Range": "18-25 years",
+        "Excellent": "> 60",
+        "Good": "52-60",
+        "Above Average": "47-51",
+        "Average": "42-46",
+        "Below Average": "37-41",
+        "Poor": "30-36",
+        "Very Poor": "< 30"
+      },
+      {
+        "Age Range": "26-35 years",
+        "Excellent": "> 56",
+        "Good": "49-56",
+        "Above Average": "43-48",
+        "Average": "40-42",
+        "Below Average": "35-39",
+        "Poor": "29-34",
+        "Very Poor": "< 29"
+      },
+      {
+        "Age Range": "36-45 years",
+        "Excellent": "> 51",
+        "Good": "43-51",
+        "Above Average": "39-42",
+        "Average": "35-38",
+        "Below Average": "31-34",
+        "Poor": "26-30",
+        "Very Poor": "< 26"
+      },
+      {
+        "Age Range": "46-55 years",
+        "Excellent": "> 45",
+        "Good": "39-45",
+        "Above Average": "36-38",
+        "Average": "32-35",
+        "Below Average": "29-31",
+        "Poor": "25-28",
+        "Very Poor": "< 25"
+      },
+      {
+        "Age Range": "56-65 years",
+        "Excellent": "> 41",
+        "Good": "36-41",
+        "Above Average": "32-35",
+        "Average": "30-31",
+        "Below Average": "26-29",
+        "Poor": "22-25",
+        "Very Poor": "< 22"
+      },
+      {
+        "Age Range": "65+ years",
+        "Excellent": "> 37",
+        "Good": "33-37",
+        "Above Average": "29-32",
+        "Average": "26-28",
+        "Below Average": "22-25",
+        "Poor": "20-21",
+        "Very Poor": "< 20"
+      }
+    ],
+    "femaleStandards": [
+      {
+        "Age Range": "18-25 years",
+        "Excellent": "> 56",
+        "Good": "47-56",
+        "Above Average": "42-46",
+        "Average": "38-41",
+        "Below Average": "33-37",
+        "Poor": "28-32",
+        "Very Poor": "< 28"
+      },
+      {
+        "Age Range": "26-35 years",
+        "Excellent": "> 52",
+        "Good": "45-52",
+        "Above Average": "39-44",
+        "Average": "35-38",
+        "Below Average": "31-34",
+        "Poor": "26-30",
+        "Very Poor": "< 26"
+      },
+      {
+        "Age Range": "36-45 years",
+        "Excellent": "> 45",
+        "Good": "38-45",
+        "Above Average": "34-37",
+        "Average": "31-33",
+        "Below Average": "27-30",
+        "Poor": "22-26",
+        "Very Poor": "< 22"
+      },
+      {
+        "Age Range": "46-55 years",
+        "Excellent": "> 40",
+        "Good": "34-40",
+        "Above Average": "31-33",
+        "Average": "28-30",
+        "Below Average": "25-27",
+        "Poor": "20-24",
+        "Very Poor": "< 20"
+      },
+      {
+        "Age Range": "56-65 years",
+        "Excellent": "> 37",
+        "Good": "32-37",
+        "Above Average": "28-31",
+        "Average": "25-27",
+        "Below Average": "22-24",
+        "Poor": "18-21",
+        "Very Poor": "< 18"
+      },
+      {
+        "Age Range": "65+ years",
+        "Excellent": "> 32",
+        "Good": "28-32",
+        "Above Average": "25-27",
+        "Average": "22-24",
+        "Below Average": "19-21",
+        "Poor": "17-18",
+        "Very Poor": "< 17"
+      }
+    ],
+    "instructions": [
+      {
+        "Step": "1",
+        "Instruction": "Find a measured 1-mile track or course"
+      },
+      {
+        "Step": "2",
+        "Instruction": "Warm up with 5-10 minutes of light walking"
+      },
+      {
+        "Step": "3",
+        "Instruction": "Walk 1 mile as fast as possible (do not run)"
+      },
+      {
+        "Step": "4",
+        "Instruction": "Record your finishing time in minutes and seconds"
+      },
+      {
+        "Step": "5",
+        "Instruction": "Immediately after finishing, count your heart rate for 15 seconds and multiply by 4"
+      },
+      {
+        "Step": "6",
+        "Instruction": "Record your body weight in pounds"
+      },
+      {
+        "Step": "7",
+        "Instruction": "Use the formula to calculate VO2 max or compare time to standards"
+      }
+    ],
+    "formula": [
+      {
+        "Component": "VO2 Max Formula",
+        "Details": "VO2 max = 132.853 - (0.0769 × Weight) - (0.3877 × Age) + (6.315 × Gender) - (3.2649 × Time) - (0.1565 × Heart Rate)"
+      },
+      {
+        "Component": "Gender Value",
+        "Details": "Male = 1, Female = 0"
+      },
+      {
+        "Component": "Weight",
+        "Details": "Body weight in pounds"
+      },
+      {
+        "Component": "Time",
+        "Details": "Walk time in minutes (convert seconds to decimal)"
+      },
+      {
+        "Component": "Heart Rate",
+        "Details": "Heart rate in beats per minute immediately after finishing"
+      },
+      {
+        "Component": "Age",
+        "Details": "Age in years"
+      }
+    ]
+  },
+  "stepTest3Minute": {
+    "description": "Step up and down on a 12-inch bench for 3 minutes, then measure recovery heart rate",
+    "maleStandards": [
+      {
+        "Age Range": "18-25",
+        "Excellent": "< 79",
+        "Good": "79-89",
+        "Above Average": "90-99",
+        "Average": "100-105",
+        "Below Average": "106-116",
+        "Poor": "> 116"
+      },
+      {
+        "Age Range": "26-35",
+        "Excellent": "< 81",
+        "Good": "81-90",
+        "Above Average": "91-100",
+        "Average": "101-107",
+        "Below Average": "108-117",
+        "Poor": "> 117"
+      },
+      {
+        "Age Range": "36-45",
+        "Excellent": "< 83",
+        "Good": "83-96",
+        "Above Average": "97-103",
+        "Average": "104-112",
+        "Below Average": "113-119",
+        "Poor": "> 119"
+      },
+      {
+        "Age Range": "46-55",
+        "Excellent": "< 87",
+        "Good": "87-97",
+        "Above Average": "98-105",
+        "Average": "106-116",
+        "Below Average": "117-122",
+        "Poor": "> 122"
+      },
+      {
+        "Age Range": "56-65",
+        "Excellent": "< 86",
+        "Good": "86-97",
+        "Above Average": "98-103",
+        "Average": "104-112",
+        "Below Average": "113-120",
+        "Poor": "> 120"
+      },
+      {
+        "Age Range": "65+",
+        "Excellent": "< 88",
+        "Good": "88-96",
+        "Above Average": "97-103",
+        "Average": "104-113",
+        "Below Average": "114-120",
+        "Poor": "> 120"
+      }
+    ],
+    "femaleStandards": [
+      {
+        "Age Range": "18-25",
+        "Excellent": "< 85",
+        "Good": "85-98",
+        "Above Average": "99-108",
+        "Average": "109-117",
+        "Below Average": "118-126",
+        "Poor": "> 126"
+      },
+      {
+        "Age Range": "26-35",
+        "Excellent": "< 88",
+        "Good": "88-99",
+        "Above Average": "100-111",
+        "Average": "112-119",
+        "Below Average": "120-126",
+        "Poor": "> 126"
+      },
+      {
+        "Age Range": "36-45",
+        "Excellent": "< 90",
+        "Good": "90-102",
+        "Above Average": "103-110",
+        "Average": "111-118",
+        "Below Average": "119-128",
+        "Poor": "> 128"
+      },
+      {
+        "Age Range": "46-55",
+        "Excellent": "< 94",
+        "Good": "94-104",
+        "Above Average": "105-115",
+        "Average": "116-120",
+        "Below Average": "121-129",
+        "Poor": "> 129"
+      },
+      {
+        "Age Range": "56-65",
+        "Excellent": "< 95",
+        "Good": "95-104",
+        "Above Average": "105-112",
+        "Average": "113-118",
+        "Below Average": "119-128",
+        "Poor": "> 128"
+      },
+      {
+        "Age Range": "65+",
+        "Excellent": "< 90",
+        "Good": "90-102",
+        "Above Average": "103-115",
+        "Average": "116-122",
+        "Below Average": "123-128",
+        "Poor": "> 128"
+      }
+    ],
+    "instructions": [
+      {
+        "Step": "1",
+        "Instruction": "Equipment needed: 12-inch step or bench, metronome or timer, stopwatch"
+      },
+      {
+        "Step": "2",
+        "Instruction": "Set metronome to 96 beats per minute (24 steps per minute = 4 counts per step)"
+      },
+      {
+        "Step": "3",
+        "Instruction": "Warm up with 2-3 minutes of light stepping or walking"
+      },
+      {
+        "Step": "4",
+        "Instruction": "Step up and down continuously for exactly 3 minutes following this pattern: right foot up, left foot up, right foot down, left foot down"
+      },
+      {
+        "Step": "5",
+        "Instruction": "Maintain steady rhythm throughout the entire 3 minutes"
+      },
+      {
+        "Step": "6",
+        "Instruction": "Immediately after finishing, sit down and rest for exactly 1 minute"
+      },
+      {
+        "Step": "7",
+        "Instruction": "At the end of the 1-minute rest, take your pulse for 1 full minute (60 seconds)"
+      },
+      {
+        "Step": "8",
+        "Instruction": "Record your 1-minute recovery heart rate and compare to standards"
+      }
+    ],
+    "formula": [
+      {
+        "Component": "Recovery Heart Rate",
+        "Details": "Count pulse for 60 seconds starting exactly 1 minute after finishing the test"
+      },
+      {
+        "Component": "Fitness Score Formula",
+        "Details": "Fitness Score = (Duration in seconds × 100) / (Recovery HR × 5.6)"
+      },
+      {
+        "Component": "Duration",
+        "Details": "Usually 180 seconds (3 minutes) if completed"
+      },
+      {
+        "Component": "Interpreting Score",
+        "Details": "Higher scores indicate better cardiovascular fitness"
+      },
+      {
+        "Component": "Alternative Scoring",
+        "Details": "Lower recovery heart rate = better fitness level"
+      },
+      {
+        "Component": "Step Height",
+        "Details": "Standard is 12 inches; some protocols use different heights"
+      }
+    ],
+    "notes": [
+      {
+        "Note": "Equipment",
+        "Details": "Use a sturdy 12-inch high step or bench. Some gyms have adjustable aerobic steps."
+      },
+      {
+        "Note": "Metronome",
+        "Details": "Free metronome apps available for smartphones to maintain proper cadence"
+      },
+      {
+        "Note": "Step Pattern",
+        "Details": "Each complete cycle = 4 beats (up-up-down-down). 96 beats per minute = 24 complete steps per minute"
+      },
+      {
+        "Note": "Safety",
+        "Details": "Ensure step is stable and non-slip. Use handrail if needed for balance but not for support"
+      },
+      {
+        "Note": "When to Stop",
+        "Details": "Stop if unable to maintain pace for 15 seconds or experience dizziness, pain, or extreme fatigue"
+      },
+      {
+        "Note": "Advantages",
+        "Details": "Low impact, requires minimal space, suitable for various fitness levels, good for indoor testing"
+      }
+    ]
+  },
+  "cooper12MinuteRun": {
+    "description": "Run as far as possible in exactly 12 minutes",
+    "maleStandards": [
+      {
+        "Age Range": "13-19",
+        "Excellent": "> 1.88",
+        "Good": "1.67-1.88",
+        "Average": "1.49-1.66",
+        "Below Average": "1.37-1.48",
+        "Poor": "< 1.37"
+      },
+      {
+        "Age Range": "20-29",
+        "Excellent": "> 1.80",
+        "Good": "1.58-1.80",
+        "Average": "1.43-1.57",
+        "Below Average": "1.31-1.42",
+        "Poor": "< 1.31"
+      },
+      {
+        "Age Range": "30-39",
+        "Excellent": "> 1.73",
+        "Good": "1.52-1.73",
+        "Average": "1.37-1.51",
+        "Below Average": "1.24-1.36",
+        "Poor": "< 1.24"
+      },
+      {
+        "Age Range": "40-49",
+        "Excellent": "> 1.66",
+        "Good": "1.45-1.66",
+        "Average": "1.30-1.44",
+        "Below Average": "1.18-1.29",
+        "Poor": "< 1.18"
+      },
+      {
+        "Age Range": "50+",
+        "Excellent": "> 1.58",
+        "Good": "1.37-1.58",
+        "Average": "1.24-1.36",
+        "Below Average": "1.11-1.23",
+        "Poor": "< 1.11"
+      }
+    ],
+    "femaleStandards": [
+      {
+        "Age Range": "13-19",
+        "Excellent": "> 1.58",
+        "Good": "1.40-1.58",
+        "Average": "1.24-1.39",
+        "Below Average": "1.12-1.23",
+        "Poor": "< 1.12"
+      },
+      {
+        "Age Range": "20-29",
+        "Excellent": "> 1.52",
+        "Good": "1.33-1.52",
+        "Average": "1.18-1.32",
+        "Below Average": "1.05-1.17",
+        "Poor": "< 1.05"
+      },
+      {
+        "Age Range": "30-39",
+        "Excellent": "> 1.43",
+        "Good": "1.24-1.43",
+        "Average": "1.11-1.23",
+        "Below Average": "0.99-1.10",
+        "Poor": "< 0.99"
+      },
+      {
+        "Age Range": "40-49",
+        "Excellent": "> 1.37",
+        "Good": "1.18-1.37",
+        "Average": "1.05-1.17",
+        "Below Average": "0.93-1.04",
+        "Poor": "< 0.93"
+      },
+      {
+        "Age Range": "50+",
+        "Excellent": "> 1.30",
+        "Good": "1.11-1.30",
+        "Average": "0.99-1.10",
+        "Below Average": "0.87-0.98",
+        "Poor": "< 0.87"
+      }
+    ],
+    "instructions": [
+      {
+        "Step": "1",
+        "Instruction": "Find a measured track (400m track = 4 laps per mile)"
+      },
+      {
+        "Step": "2",
+        "Instruction": "Warm up with 10-15 minutes of light jogging and dynamic stretching"
+      },
+      {
+        "Step": "3",
+        "Instruction": "Run as far as possible in exactly 12 minutes"
+      },
+      {
+        "Step": "4",
+        "Instruction": "Pace yourself - start conservatively and increase if able"
+      },
+      {
+        "Step": "5",
+        "Instruction": "Record the total distance covered in miles (or convert from meters)"
+      },
+      {
+        "Step": "6",
+        "Instruction": "Cool down with 5-10 minutes of walking"
+      },
+      {
+        "Step": "7",
+        "Instruction": "Compare your distance to the standards for your age and gender"
+      }
+    ],
+    "formula": [
+      {
+        "Component": "VO2 Max Formula",
+        "Details": "VO2 max = (Distance in meters - 504.9) / 44.73"
+      },
+      {
+        "Component": "Distance Conversion",
+        "Details": "1 mile = 1,609.34 meters"
+      },
+      {
+        "Component": "Alternative Formula",
+        "Details": "VO2 max = (Distance in miles × 35.97) - 11.29"
+      },
+      {
+        "Component": "Result Units",
+        "Details": "VO2 max in ml/kg/min"
+      }
+    ]
+  },
+  "mile15Run": {
+    "description": "Run 1.5 miles as fast as possible",
+    "maleStandards": [
+      {
+        "Age Range": "18-25 years",
+        "Excellent": "> 60",
+        "Good": "52-60",
+        "Above Average": "47-51",
+        "Average": "42-46",
+        "Below Average": "37-41",
+        "Poor": "30-36",
+        "Very Poor": "< 30"
+      },
+      {
+        "Age Range": "26-35 years",
+        "Excellent": "> 56",
+        "Good": "49-56",
+        "Above Average": "43-48",
+        "Average": "40-42",
+        "Below Average": "35-39",
+        "Poor": "29-34",
+        "Very Poor": "< 29"
+      },
+      {
+        "Age Range": "36-45 years",
+        "Excellent": "> 51",
+        "Good": "43-51",
+        "Above Average": "39-42",
+        "Average": "35-38",
+        "Below Average": "31-34",
+        "Poor": "26-30",
+        "Very Poor": "< 26"
+      },
+      {
+        "Age Range": "46-55 years",
+        "Excellent": "> 45",
+        "Good": "39-45",
+        "Above Average": "36-38",
+        "Average": "32-35",
+        "Below Average": "29-31",
+        "Poor": "25-28",
+        "Very Poor": "< 25"
+      },
+      {
+        "Age Range": "56-65 years",
+        "Excellent": "> 41",
+        "Good": "36-41",
+        "Above Average": "32-35",
+        "Average": "30-31",
+        "Below Average": "26-29",
+        "Poor": "22-25",
+        "Very Poor": "< 22"
+      },
+      {
+        "Age Range": "65+ years",
+        "Excellent": "> 37",
+        "Good": "33-37",
+        "Above Average": "29-32",
+        "Average": "26-28",
+        "Below Average": "22-25",
+        "Poor": "20-21",
+        "Very Poor": "< 20"
+      }
+    ],
+    "femaleStandards": [
+      {
+        "Age Range": "18-25 years",
+        "Excellent": "> 56",
+        "Good": "47-56",
+        "Above Average": "42-46",
+        "Average": "38-41",
+        "Below Average": "33-37",
+        "Poor": "28-32",
+        "Very Poor": "< 28"
+      },
+      {
+        "Age Range": "26-35 years",
+        "Excellent": "> 52",
+        "Good": "45-52",
+        "Above Average": "39-44",
+        "Average": "35-38",
+        "Below Average": "31-34",
+        "Poor": "26-30",
+        "Very Poor": "< 26"
+      },
+      {
+        "Age Range": "36-45 years",
+        "Excellent": "> 45",
+        "Good": "38-45",
+        "Above Average": "34-37",
+        "Average": "31-33",
+        "Below Average": "27-30",
+        "Poor": "22-26",
+        "Very Poor": "< 22"
+      },
+      {
+        "Age Range": "46-55 years",
+        "Excellent": "> 40",
+        "Good": "34-40",
+        "Above Average": "31-33",
+        "Average": "28-30",
+        "Below Average": "25-27",
+        "Poor": "20-24",
+        "Very Poor": "< 20"
+      },
+      {
+        "Age Range": "56-65 years",
+        "Excellent": "> 37",
+        "Good": "32-37",
+        "Above Average": "28-31",
+        "Average": "25-27",
+        "Below Average": "22-24",
+        "Poor": "18-21",
+        "Very Poor": "< 18"
+      },
+      {
+        "Age Range": "65+ years",
+        "Excellent": "> 32",
+        "Good": "28-32",
+        "Above Average": "25-27",
+        "Average": "22-24",
+        "Below Average": "19-21",
+        "Poor": "17-18",
+        "Very Poor": "< 17"
+      }
+    ],
+    "instructions": [
+      {
+        "Step": "1",
+        "Instruction": "Find a measured 1.5-mile course or track (6 laps on 400m track)"
+      },
+      {
+        "Step": "2",
+        "Instruction": "Warm up with 10-15 minutes of light jogging and stretching"
+      },
+      {
+        "Step": "3",
+        "Instruction": "Run 1.5 miles as fast as possible - this is a maximal effort test"
+      },
+      {
+        "Step": "4",
+        "Instruction": "Maintain steady pace - avoid starting too fast"
+      },
+      {
+        "Step": "5",
+        "Instruction": "Record your finishing time in minutes and seconds"
+      },
+      {
+        "Step": "6",
+        "Instruction": "Cool down with 5-10 minutes of walking"
+      },
+      {
+        "Step": "7",
+        "Instruction": "Compare your time to standards for your age and gender"
+      }
+    ],
+    "formula": [
+      {
+        "Component": "VO2 Max Formula",
+        "Details": "VO2 max = 483 / Time in minutes + 3.5"
+      },
+      {
+        "Component": "Time Conversion",
+        "Details": "Convert time to decimal minutes (e.g., 12:30 = 12.5 minutes)"
+      },
+      {
+        "Component": "Alternative Formula",
+        "Details": "VO2 max = (3.5 × 1609.34 × 1.5) / (Time in seconds) × 0.2 + 3.5"
+      },
+      {
+        "Component": "Result Units",
+        "Details": "VO2 max in ml/kg/min"
+      }
+    ]
+  },
+  "generalGuidelines": [
+    {
+      "Topic": "When to Test",
+      "Details": "Perform tests when well-rested, properly hydrated, and free from illness or injury"
+    },
+    {
+      "Topic": "Test Frequency",
+      "Details": "Retest every 8-12 weeks to track cardiovascular fitness improvements"
+    },
+    {
+      "Topic": "Environmental Conditions",
+      "Details": "Test in similar weather conditions (temperature, humidity, wind) for accurate comparisons"
+    },
+    {
+      "Topic": "Medical Clearance",
+      "Details": "Consult physician before testing if over 40, sedentary, or have health concerns"
+    },
+    {
+      "Topic": "Proper Footwear",
+      "Details": "Wear appropriate running shoes with good support and cushioning"
+    },
+    {
+      "Topic": "Hydration",
+      "Details": "Drink water before testing but avoid excessive fluid intake immediately before"
+    },
+    {
+      "Topic": "Safety First",
+      "Details": "Stop immediately if experiencing chest pain, dizziness, or extreme shortness of breath"
+    }
+  ]
+}

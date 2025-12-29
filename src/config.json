@@ -1,0 +1,10 @@
+{
+  "downloadUrls": {
+    "weightLoss": "https://drive.google.com/file/d/1rs6X6AEyBnMEbdkah02aGF3jdBBgA3S6/view?usp=drive_link",
+    "muscleBuild": "",
+    "stressRelief": "",
+    "exercisesAnywhere": ""
+  },
+  "timeout": 3000,
+  "fallbackToTextFile": true
+}
