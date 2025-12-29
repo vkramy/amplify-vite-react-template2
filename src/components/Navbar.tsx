@@ -92,6 +92,13 @@ const Navbar = () => {
                       >
                         Body Assessment
                       </Link>
+                      <Link
+                        to="/cardiovascular-assessment"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        Cardiovascular Assessment
+                      </Link>
                       <button
                         onClick={handleSignOut}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

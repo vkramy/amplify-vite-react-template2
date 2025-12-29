@@ -10,6 +10,7 @@ import ExercisesAnywhere from './pages/ExercisesAnywhere';
 import Blog from './pages/Blog';
 import Profile from './pages/Profile';
 import BodyAssessment from './pages/BodyAssessment';
+import CardiovascularAssessment from './pages/CardiovascularAssessment';
 import './App.css';
 
 function App() {
@@ -36,6 +37,11 @@ function App() {
             <Route path="/body-assessment" element={
               <ProtectedRoute>
                 <BodyAssessment />
+              </ProtectedRoute>
+            } />
+            <Route path="/cardiovascular-assessment" element={
+              <ProtectedRoute>
+                <CardiovascularAssessment />
               </ProtectedRoute>
             } />
           </Routes>
