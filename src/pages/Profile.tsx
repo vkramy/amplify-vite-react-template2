@@ -12,6 +12,7 @@ interface UserProfile {
   weight?: string;
   fitnessGoal?: string;
   activityLevel?: string;
+  membershipType?: string;
   joinDate?: string;
 }
 
@@ -25,6 +26,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     loadUserProfile();
@@ -35,19 +37,57 @@ const Profile = () => {
 
     try {
       const attributes = await fetchUserAttributes();
+      
+      // Try to load from localStorage as fallback for custom attributes
+      const localProfile = user?.userId ? localStorage.getItem(`profile_${user.userId}`) : null;
+      const savedProfile = localProfile ? JSON.parse(localProfile) : {};
+      
+      // Initialize membership type if not set
+      let membershipType = attributes['custom:membership_type'] || savedProfile.membershipType || 'FREE';
+      
       setProfile({
-        name: attributes.name || '',
+        name: attributes.name || savedProfile.name || '',
         email: attributes.email || '',
-        age: attributes['custom:age'] || '',
-        height: attributes['custom:height'] || '',
-        weight: attributes['custom:weight'] || '',
-        fitnessGoal: attributes['custom:fitness_goal'] || '',
-        activityLevel: attributes['custom:activity_level'] || '',
+        age: attributes['custom:age'] || savedProfile.age || '',
+        height: attributes['custom:height'] || savedProfile.height || '',
+        weight: attributes['custom:weight'] || savedProfile.weight || '',
+        fitnessGoal: attributes['custom:fitness_goal'] || savedProfile.fitnessGoal || '',
+        activityLevel: attributes['custom:activity_level'] || savedProfile.activityLevel || '',
+        membershipType: membershipType,
         joinDate: new Date(user.signInDetails?.loginId || Date.now()).toLocaleDateString(),
       });
     } catch (err) {
       console.error('Error loading profile:', err);
-      setError('Failed to load profile');
+      
+      // Fallback to localStorage only
+      try {
+        const localProfile = user?.userId ? localStorage.getItem(`profile_${user.userId}`) : null;
+        if (localProfile) {
+          const savedProfile = JSON.parse(localProfile);
+          setProfile({
+            name: savedProfile.name || '',
+            email: user.signInDetails?.loginId || '',
+            age: savedProfile.age || '',
+            height: savedProfile.height || '',
+            weight: savedProfile.weight || '',
+            fitnessGoal: savedProfile.fitnessGoal || '',
+            activityLevel: savedProfile.activityLevel || '',
+            membershipType: savedProfile.membershipType || 'FREE',
+            joinDate: new Date(user.signInDetails?.loginId || Date.now()).toLocaleDateString(),
+          });
+        } else {
+          // Set default profile
+          setProfile({
+            name: '',
+            email: user.signInDetails?.loginId || '',
+            membershipType: 'FREE',
+            joinDate: new Date().toLocaleDateString(),
+          });
+        }
+      } catch (localErr) {
+        console.error('Error loading from localStorage:', localErr);
+        setError('Failed to load profile');
+      }
     } finally {
       setLoading(false);
     }
@@ -56,19 +96,45 @@ const Profile = () => {
   const handleSave = async () => {
     setSaving(true);
     setError('');
+    setSuccessMessage('');
 
     try {
-      await updateUserAttributes({
-        userAttributes: {
-          name: profile.name,
-          'custom:age': profile.age || '',
-          'custom:height': profile.height || '',
-          'custom:weight': profile.weight || '',
-          'custom:fitness_goal': profile.fitnessGoal || '',
-          'custom:activity_level': profile.activityLevel || '',
-        },
-      });
+      // Save to localStorage as fallback
+      const profileData = {
+        name: profile.name,
+        age: profile.age,
+        height: profile.height,
+        weight: profile.weight,
+        fitnessGoal: profile.fitnessGoal,
+        activityLevel: profile.activityLevel,
+        membershipType: profile.membershipType,
+      };
+      
+      if (user?.userId) {
+        localStorage.setItem(`profile_${user.userId}`, JSON.stringify(profileData));
+      }
+
+      // Try to save to Cognito (will work once backend is deployed)
+      try {
+        await updateUserAttributes({
+          userAttributes: {
+            name: profile.name,
+            'custom:age': profile.age || '',
+            'custom:height': profile.height || '',
+            'custom:weight': profile.weight || '',
+            'custom:fitness_goal': profile.fitnessGoal || '',
+            'custom:activity_level': profile.activityLevel || '',
+          },
+        });
+      } catch (cognitoError) {
+        console.warn('Could not save to Cognito (custom attributes not deployed yet):', cognitoError);
+        // Continue with localStorage save
+      }
+
       setIsEditing(false);
+      setSuccessMessage('Profile updated successfully!');
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err: any) {
       setError(err.message || 'Failed to update profile');
     } finally {
@@ -78,6 +144,8 @@ const Profile = () => {
 
   const handleCancel = () => {
     setIsEditing(false);
+    setError('');
+    setSuccessMessage('');
     loadUserProfile(); // Reset to original values
   };
 
@@ -142,6 +210,20 @@ const Profile = () => {
             {error}
           </div>
         )}
+
+        {successMessage && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            {successMessage}
+          </div>
+        )}
+
+        {/* Temporary Notice */}
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-6">
+          <p className="text-sm">
+            <strong>Note:</strong> Profile data is currently stored locally. Once the backend is fully deployed, 
+            your profile will be automatically synced to the cloud for permanent storage.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Personal Information */}
@@ -269,6 +351,23 @@ const Profile = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Membership Type
+                </label>
+                <div className="flex items-center py-2">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    profile.membershipType === 'Premium' 
+                      ? 'bg-purple-100 text-purple-800' 
+                      : profile.membershipType === 'Monthly'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {profile.membershipType || 'FREE'}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Member Since
                 </label>
                 <p className="text-gray-800 py-2">{profile.joinDate}</p>
@@ -318,9 +417,21 @@ const Profile = () => {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
                 <Award className="h-5 w-5 mr-2" />
-                Quick Stats
+                Account Info
               </h3>
               <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Membership</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    profile.membershipType === 'Premium' 
+                      ? 'bg-purple-100 text-purple-800' 
+                      : profile.membershipType === 'Monthly'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {profile.membershipType || 'FREE'}
+                  </span>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Programs Enrolled</span>
                   <span className="font-semibold">0</span>

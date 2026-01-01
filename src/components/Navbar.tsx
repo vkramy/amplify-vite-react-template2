@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 
 const Navbar = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, refreshUser } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -127,9 +127,10 @@ const Navbar = () => {
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onSuccess={() => {
+        onSuccess={async () => {
           setShowAuthModal(false);
-          // Optionally redirect to profile or refresh user data
+          // Refresh user data to update the UI
+          await refreshUser();
         }}
       />
     </>
