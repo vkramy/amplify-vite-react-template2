@@ -45,6 +45,16 @@ const Profile = () => {
       // Initialize membership type if not set
       let membershipType = attributes['custom:membership_type'] || savedProfile.membershipType || 'FREE';
       
+      // Get member since date from attributes or fallback to current date
+      let memberSinceDate = attributes['custom:member_since'];
+      if (memberSinceDate) {
+        // Convert YYYY-MM-DD to localized date string
+        memberSinceDate = new Date(memberSinceDate).toLocaleDateString();
+      } else {
+        // Fallback to current date if not set
+        memberSinceDate = new Date().toLocaleDateString();
+      }
+      
       setProfile({
         name: attributes.name || savedProfile.name || '',
         email: attributes.email || '',
@@ -54,7 +64,7 @@ const Profile = () => {
         fitnessGoal: attributes['custom:fitness_goal'] || savedProfile.fitnessGoal || '',
         activityLevel: attributes['custom:activity_level'] || savedProfile.activityLevel || '',
         membershipType: membershipType,
-        joinDate: new Date(user.signInDetails?.loginId || Date.now()).toLocaleDateString(),
+        joinDate: memberSinceDate,
       });
     } catch (err) {
       console.error('Error loading profile:', err);
@@ -73,7 +83,7 @@ const Profile = () => {
             fitnessGoal: savedProfile.fitnessGoal || '',
             activityLevel: savedProfile.activityLevel || '',
             membershipType: savedProfile.membershipType || 'FREE',
-            joinDate: new Date(user.signInDetails?.loginId || Date.now()).toLocaleDateString(),
+            joinDate: savedProfile.joinDate || new Date().toLocaleDateString(),
           });
         } else {
           // Set default profile
@@ -108,6 +118,7 @@ const Profile = () => {
         fitnessGoal: profile.fitnessGoal,
         activityLevel: profile.activityLevel,
         membershipType: profile.membershipType,
+        joinDate: profile.joinDate,
       };
       
       if (user?.userId) {

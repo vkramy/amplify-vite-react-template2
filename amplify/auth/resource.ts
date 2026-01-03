@@ -33,5 +33,9 @@ export const auth = defineAuth({
       dataType: 'String',
       mutable: false,
     },
+    'custom:member_since': {
+      dataType: 'String',
+      mutable: false,
+    },
   },
 });

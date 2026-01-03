@@ -64,6 +64,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
     }
 
     try {
+      const memberSinceDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      
       await signUp({
         username: email,
         password,
@@ -71,6 +73,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
           userAttributes: {
             email,
             name,
+            'custom:membership_type': 'FREE',
+            'custom:member_since': memberSinceDate,
           },
         },
       });

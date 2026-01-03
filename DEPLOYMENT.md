@@ -45,6 +45,13 @@ The following custom attributes will be added to AWS Cognito:
 - `custom:fitness_goal` - User's fitness goal
 - `custom:activity_level` - User's activity level
 - `custom:membership_type` - User's membership type (read-only, defaults to "FREE")
+- `custom:member_since` - Date when user signed up (read-only, set automatically)
+
+## Storage Configuration
+The backend also includes S3 storage configuration for:
+- **Posture Assessment Photos**: Secure storage for front, side, and back posture photos
+- **Profile Photos**: User profile image storage
+- **Access Control**: User-specific access with proper authentication and authorization
 
 ## After Deployment
 Once the backend is deployed:
@@ -52,6 +59,8 @@ Once the backend is deployed:
 2. The temporary notice will be removed
 3. User profiles will be permanently stored in the cloud
 4. Data will persist across devices and sessions
+5. **S3 Storage**: Users can upload posture assessment photos securely
+6. **Photo Management**: Photos are stored with user-specific access controls
 
 ## Troubleshooting
 If deployment fails:
