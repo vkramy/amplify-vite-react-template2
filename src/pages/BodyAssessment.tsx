@@ -422,7 +422,15 @@ Please consult with a healthcare provider for comprehensive health evaluation an
 
     try {
       setUploading(true);
+      console.log('Starting upload for user:', user);
+      console.log('Photo file:', photo.file.name, photo.file.type);
+      
+      // For Amplify Gen 2 with entity-based access, we need to include the full path
+      // The entity_id will be automatically resolved by Amplify
+     // const fileName = `posture-photos/{entity_id}/${photo.type}-${Date.now()}.${photo.file.name.split('.').pop()}`;
       const fileName = `posture-photos/${user.userId}/${photo.type}-${Date.now()}.${photo.file.name.split('.').pop()}`;
+       
+     console.log('Upload key:', fileName);
       
       const result = await uploadData({
         key: fileName,
@@ -432,8 +440,11 @@ Please consult with a healthcare provider for comprehensive health evaluation an
         }
       }).result;
 
+      console.log('Upload successful:', result);
+
       // Get the URL for the uploaded file
       const urlResult = await getUrl({ key: result.key });
+      console.log('URL generated:', urlResult.url.toString());
       
       setPosturePhotos(prev => prev.map(p => 
         p.type === photo.type 
@@ -444,6 +455,7 @@ Please consult with a healthcare provider for comprehensive health evaluation an
       return result.key;
     } catch (error) {
       console.error('Error uploading photo:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       throw error;
     } finally {
       setUploading(false);

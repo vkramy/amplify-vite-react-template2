@@ -51,8 +51,8 @@ const Profile = () => {
         // Convert YYYY-MM-DD to localized date string
         memberSinceDate = new Date(memberSinceDate).toLocaleDateString();
       } else {
-        // Fallback to current date if not set
-        memberSinceDate = new Date().toLocaleDateString();
+        // Fallback: use saved date or current date
+        memberSinceDate = savedProfile.joinDate || new Date().toLocaleDateString();
       }
       
       setProfile({
