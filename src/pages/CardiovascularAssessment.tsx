@@ -33,19 +33,23 @@ interface RockportData extends BaseAssessmentData {
   walkTimeMinutes: string;
   walkTimeSeconds: string;
   heartRate: string;
+  notes: string;
 }
 
 interface Cooper12Data extends BaseAssessmentData {
   distanceMiles: string;
+  notes: string;
 }
 
 interface Mile15Data extends BaseAssessmentData {
   runTimeMinutes: string;
   runTimeSeconds: string;
+  notes: string;
 }
 
 interface StepTestData extends BaseAssessmentData {
   recoveryHeartRate: string;
+  notes: string;
 }
 
 interface AssessmentResults {
@@ -75,23 +79,27 @@ const CardiovascularAssessment = () => {
     ...baseData,
     walkTimeMinutes: '',
     walkTimeSeconds: '',
-    heartRate: ''
+    heartRate: '',
+    notes: ''
   });
 
   const [cooper12Data, setCooper12Data] = useState<Cooper12Data>({
     ...baseData,
-    distanceMiles: ''
+    distanceMiles: '',
+    notes: ''
   });
 
   const [mile15Data, setMile15Data] = useState<Mile15Data>({
     ...baseData,
     runTimeMinutes: '',
-    runTimeSeconds: ''
+    runTimeSeconds: '',
+    notes: ''
   });
 
   const [stepTestData, setStepTestData] = useState<StepTestData>({
     ...baseData,
-    recoveryHeartRate: ''
+    recoveryHeartRate: '',
+    notes: ''
   });
 
   const [results, setResults] = useState<AssessmentResults | null>(null);
@@ -437,6 +445,20 @@ const CardiovascularAssessment = () => {
       stepTest: '3-Minute Step Test'
     };
 
+    // Get current test data and notes
+    const getCurrentTestData = () => {
+      switch (activeTest) {
+        case 'rockport': return rockportData;
+        case 'cooper12': return cooper12Data;
+        case 'mile15': return mile15Data;
+        case 'stepTest': return stepTestData;
+        default: return null;
+      }
+    };
+
+    const currentTestData = getCurrentTestData();
+    const notes = currentTestData?.notes || '';
+
     const reportContent = `
 CARDIOVASCULAR FITNESS ASSESSMENT REPORT - BitFit Pro
 Generated on: ${new Date().toLocaleDateString()}
@@ -458,7 +480,11 @@ Description: ${results.description}
 
 ${results.testSpecificData ? Object.entries(results.testSpecificData).map(([key, value]) => `${key}: ${value}`).join('\n') : ''}
 
-PERSONALIZED RECOMMENDATIONS:
+${notes ? `NOTES:
+======
+${notes}
+
+` : ''}PERSONALIZED RECOMMENDATIONS:
 ============================
 ${results.recommendations.map((rec, index) => `${index + 1}. ${rec}`).join('\n')}
 
@@ -787,107 +813,183 @@ Please consult with a healthcare provider or a fitness professional for comprehe
                   <h3 className="text-lg font-semibold text-gray-700 mb-4">Test Results</h3>
                   
                   {activeTest === 'rockport' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Walk Time - Minutes
+                          </label>
+                          <input
+                            type="number"
+                            value={rockportData.walkTimeMinutes}
+                            onChange={(e) => setRockportData({...rockportData, walkTimeMinutes: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="15"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Walk Time - Seconds
+                          </label>
+                          <input
+                            type="number"
+                            value={rockportData.walkTimeSeconds}
+                            onChange={(e) => setRockportData({...rockportData, walkTimeSeconds: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="30"
+                            min="0"
+                            max="59"
+                          />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Heart Rate (bpm) - Immediately after finishing
+                          </label>
+                          <input
+                            type="number"
+                            value={rockportData.heartRate}
+                            onChange={(e) => setRockportData({...rockportData, heartRate: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="140"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Notes Field */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Walk Time - Minutes
+                          Notes (Optional)
                         </label>
-                        <input
-                          type="number"
-                          value={rockportData.walkTimeMinutes}
-                          onChange={(e) => setRockportData({...rockportData, walkTimeMinutes: e.target.value})}
+                        <textarea
+                          value={rockportData.notes}
+                          onChange={(e) => setRockportData({...rockportData, notes: e.target.value})}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="15"
+                          placeholder="Add any notes about weather conditions, track surface, how you felt, etc..."
+                          rows={3}
                         />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Walk Time - Seconds
-                        </label>
-                        <input
-                          type="number"
-                          value={rockportData.walkTimeSeconds}
-                          onChange={(e) => setRockportData({...rockportData, walkTimeSeconds: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="30"
-                          min="0"
-                          max="59"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Heart Rate (bpm) - Immediately after finishing
-                        </label>
-                        <input
-                          type="number"
-                          value={rockportData.heartRate}
-                          onChange={(e) => setRockportData({...rockportData, heartRate: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="140"
-                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Example: "Outdoor track, mild weather, felt energetic, maintained steady pace"
+                        </p>
                       </div>
                     </div>
                   )}
 
                   {activeTest === 'cooper12' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Distance Covered (miles)
-                      </label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={cooper12Data.distanceMiles}
-                        onChange={(e) => setCooper12Data({...cooper12Data, distanceMiles: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="1.5"
-                      />
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Distance Covered (miles)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={cooper12Data.distanceMiles}
+                          onChange={(e) => setCooper12Data({...cooper12Data, distanceMiles: e.target.value})}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="1.5"
+                        />
+                      </div>
+                      
+                      {/* Notes Field */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Notes (Optional)
+                        </label>
+                        <textarea
+                          value={cooper12Data.notes}
+                          onChange={(e) => setCooper12Data({...cooper12Data, notes: e.target.value})}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Add any notes about track conditions, weather, pacing strategy, etc..."
+                          rows={3}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Example: "Indoor track, started conservatively, strong finish, felt good throughout"
+                        </p>
+                      </div>
                     </div>
                   )}
 
                   {activeTest === 'mile15' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Run Time - Minutes
-                        </label>
-                        <input
-                          type="number"
-                          value={mile15Data.runTimeMinutes}
-                          onChange={(e) => setMile15Data({...mile15Data, runTimeMinutes: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="12"
-                        />
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Run Time - Minutes
+                          </label>
+                          <input
+                            type="number"
+                            value={mile15Data.runTimeMinutes}
+                            onChange={(e) => setMile15Data({...mile15Data, runTimeMinutes: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="12"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Run Time - Seconds
+                          </label>
+                          <input
+                            type="number"
+                            value={mile15Data.runTimeSeconds}
+                            onChange={(e) => setMile15Data({...mile15Data, runTimeSeconds: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="30"
+                            min="0"
+                            max="59"
+                          />
+                        </div>
                       </div>
+                      
+                      {/* Notes Field */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Run Time - Seconds
+                          Notes (Optional)
                         </label>
-                        <input
-                          type="number"
-                          value={mile15Data.runTimeSeconds}
-                          onChange={(e) => setMile15Data({...mile15Data, runTimeSeconds: e.target.value})}
+                        <textarea
+                          value={mile15Data.notes}
+                          onChange={(e) => setMile15Data({...mile15Data, notes: e.target.value})}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="30"
-                          min="0"
-                          max="59"
+                          placeholder="Add any notes about running conditions, pacing, how you felt, etc..."
+                          rows={3}
                         />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Example: "Treadmill run, steady pace, felt strong, good warm-up beforehand"
+                        </p>
                       </div>
                     </div>
                   )}
 
                   {activeTest === 'stepTest' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Recovery Heart Rate (bpm) - 1 minute after test
-                      </label>
-                      <input
-                        type="number"
-                        value={stepTestData.recoveryHeartRate}
-                        onChange={(e) => setStepTestData({...stepTestData, recoveryHeartRate: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="120"
-                      />
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Recovery Heart Rate (bpm) - 1 minute after test
+                        </label>
+                        <input
+                          type="number"
+                          value={stepTestData.recoveryHeartRate}
+                          onChange={(e) => setStepTestData({...stepTestData, recoveryHeartRate: e.target.value})}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="120"
+                        />
+                      </div>
+                      
+                      {/* Notes Field */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Notes (Optional)
+                        </label>
+                        <textarea
+                          value={stepTestData.notes}
+                          onChange={(e) => setStepTestData({...stepTestData, notes: e.target.value})}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Add any notes about step height, rhythm, how you felt during recovery, etc..."
+                          rows={3}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Example: "Used 12-inch step, maintained steady rhythm, felt slightly winded"
+                        </p>
+                      </div>
                     </div>
                   )}
                 </div>

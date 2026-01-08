@@ -31,6 +31,7 @@ interface AssessmentData {
   restingHeartRate: string;
   age: string;
   gender: string;
+  notes: string;
 }
 
 interface BodyCompositionData {
@@ -40,6 +41,17 @@ interface BodyCompositionData {
   visceralFat: string;
   boneMass: string;
   metabolicAge: string;
+  notes: string;
+}
+
+interface BodyFatCalculatorData {
+  height: string;
+  neck: string;
+  waist: string;
+  hip: string; // For females
+  age: string;
+  gender: 'male' | 'female';
+  notes: string;
 }
 
 interface PosturePhoto {
@@ -89,7 +101,8 @@ const BodyAssessment = () => {
     diastolicBP: '',
     restingHeartRate: '',
     age: '',
-    gender: 'male'
+    gender: 'male',
+    notes: ''
   });
   const [bodyCompositionData, setBodyCompositionData] = useState<BodyCompositionData>({
     bodyFatPercentage: '',
@@ -97,7 +110,17 @@ const BodyAssessment = () => {
     bodyWater: '',
     visceralFat: '',
     boneMass: '',
-    metabolicAge: ''
+    metabolicAge: '',
+    notes: ''
+  });
+  const [bodyFatCalculatorData, setBodyFatCalculatorData] = useState<BodyFatCalculatorData>({
+    height: '',
+    neck: '',
+    waist: '',
+    hip: '',
+    age: '',
+    gender: 'male',
+    notes: ''
   });
   const [posturePhotos, setPosturePhotos] = useState<PosturePhoto[]>([
     { id: 'front', type: 'front', file: null, url: null, uploaded: false },
@@ -330,6 +353,137 @@ const BodyAssessment = () => {
     setShowResults(true);
   };
 
+  // Jackson & Pollock Ideal Body Fat Percentages by age
+  const getIdealBodyFatByAge = (age: number, gender: 'male' | 'female'): number => {
+    const ageRanges = {
+      male: [
+        { age: 20, ideal: 8.5 },
+        { age: 25, ideal: 10.5 },
+        { age: 30, ideal: 12.7 },
+        { age: 35, ideal: 13.7 },
+        { age: 40, ideal: 15.3 },
+        { age: 45, ideal: 16.4 },
+        { age: 50, ideal: 18.9 },
+        { age: 55, ideal: 20.9 }
+      ],
+      female: [
+        { age: 20, ideal: 17.7 },
+        { age: 25, ideal: 18.4 },
+        { age: 30, ideal: 19.3 },
+        { age: 35, ideal: 21.5 },
+        { age: 40, ideal: 22.2 },
+        { age: 45, ideal: 22.9 },
+        { age: 50, ideal: 25.2 },
+        { age: 55, ideal: 26.3 }
+      ]
+    };
+
+    const ranges = ageRanges[gender];
+    
+    // Find the appropriate age range
+    if (age <= ranges[0].age) return ranges[0].ideal;
+    if (age >= ranges[ranges.length - 1].age) return ranges[ranges.length - 1].ideal;
+    
+    // Interpolate between age ranges
+    for (let i = 0; i < ranges.length - 1; i++) {
+      if (age >= ranges[i].age && age <= ranges[i + 1].age) {
+        const ratio = (age - ranges[i].age) / (ranges[i + 1].age - ranges[i].age);
+        return ranges[i].ideal + ratio * (ranges[i + 1].ideal - ranges[i].ideal);
+      }
+    }
+    
+    return ranges[Math.floor(ranges.length / 2)].ideal; // fallback
+  };
+
+  const calculateBodyFatPercentage = (data: BodyFatCalculatorData) => {
+    const height = parseFloat(data.height);
+    const neck = parseFloat(data.neck);
+    const waist = parseFloat(data.waist);
+    const hip = parseFloat(data.hip);
+    const age = parseFloat(data.age);
+
+    if (!height || !neck || !waist || !age) return null;
+
+    let bodyFatPercentage: number;
+
+    if (data.gender === 'male') {
+      // U.S. Navy formula for males: BFP = 495 / (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) - 450
+      const log10WaistNeck = Math.log10(waist - neck);
+      const log10Height = Math.log10(height);
+      bodyFatPercentage = 495 / (1.0324 - 0.19077 * log10WaistNeck + 0.15456 * log10Height) - 450;
+    } else {
+      // U.S. Navy formula for females: BFP = 495 / (1.29579 - 0.35004 * log10(waist + hip - neck) + 0.22100 * log10(height)) - 450
+      if (!hip) return null;
+      const log10WaistHipNeck = Math.log10(waist + hip - neck);
+      const log10Height = Math.log10(height);
+      bodyFatPercentage = 495 / (1.29579 - 0.35004 * log10WaistHipNeck + 0.22100 * log10Height) - 450;
+    }
+
+    // Ensure result is within reasonable bounds
+    bodyFatPercentage = Math.max(0, Math.min(50, bodyFatPercentage));
+
+    // Get ideal body fat percentage for age and gender (Jackson & Pollock)
+    const idealBodyFat = getIdealBodyFatByAge(age, data.gender);
+    const differenceFromIdeal = bodyFatPercentage - idealBodyFat;
+
+    // Categorize based on American Council on Exercise standards
+    let category = '';
+    let status: 'excellent' | 'good' | 'fair' | 'poor' = 'poor';
+
+    if (data.gender === 'male') {
+      if (bodyFatPercentage < 2) { category = 'Essential Fat (Too Low)'; status = 'poor'; }
+      else if (bodyFatPercentage <= 5) { category = 'Essential Fat'; status = 'poor'; }
+      else if (bodyFatPercentage <= 13) { category = 'Athletes'; status = 'excellent'; }
+      else if (bodyFatPercentage <= 17) { category = 'Fitness'; status = 'good'; }
+      else if (bodyFatPercentage <= 24) { category = 'Average'; status = 'fair'; }
+      else { category = 'Obese'; status = 'poor'; }
+    } else {
+      if (bodyFatPercentage < 10) { category = 'Essential Fat (Too Low)'; status = 'poor'; }
+      else if (bodyFatPercentage <= 13) { category = 'Essential Fat'; status = 'poor'; }
+      else if (bodyFatPercentage <= 20) { category = 'Athletes'; status = 'excellent'; }
+      else if (bodyFatPercentage <= 24) { category = 'Fitness'; status = 'good'; }
+      else if (bodyFatPercentage <= 31) { category = 'Average'; status = 'fair'; }
+      else { category = 'Obese'; status = 'poor'; }
+    }
+
+    // Age-based analysis
+    let ageAnalysis = '';
+    let recommendations = [];
+    
+    if (Math.abs(differenceFromIdeal) <= 2) {
+      ageAnalysis = `Your body fat percentage is very close to the ideal range for your age (${idealBodyFat.toFixed(1)}%). This indicates excellent body composition for your age group.`;
+      recommendations.push('Maintain your current fitness routine and healthy eating habits');
+      recommendations.push('Focus on strength training to preserve muscle mass as you age');
+    } else if (differenceFromIdeal > 2) {
+      ageAnalysis = `Your body fat percentage is ${differenceFromIdeal.toFixed(1)}% above the ideal range for your age (${idealBodyFat.toFixed(1)}%). There is room for improvement through targeted lifestyle changes.`;
+      recommendations.push('Incorporate regular cardiovascular exercise (150+ minutes per week)');
+      recommendations.push('Add strength training 2-3 times per week to build lean muscle');
+      recommendations.push('Focus on a balanced, calorie-controlled diet with adequate protein');
+      if (differenceFromIdeal > 5) {
+        recommendations.push('Consider consulting with a nutritionist or fitness professional');
+      }
+    } else {
+      ageAnalysis = `Your body fat percentage is ${Math.abs(differenceFromIdeal).toFixed(1)}% below the ideal range for your age (${idealBodyFat.toFixed(1)}%). This is excellent for athletic performance and health.`;
+      recommendations.push('Maintain your excellent fitness level with consistent training');
+      recommendations.push('Ensure adequate nutrition to support your active lifestyle');
+      if (Math.abs(differenceFromIdeal) > 3) {
+        recommendations.push('Monitor that body fat doesn\'t drop too low, which can affect health');
+      }
+    }
+
+    return {
+      percentage: parseFloat(bodyFatPercentage.toFixed(1)),
+      category,
+      status,
+      description: `Based on the U.S. Navy method, your estimated body fat percentage is ${bodyFatPercentage.toFixed(1)}%, which falls in the ${category.toLowerCase()} range.`,
+      idealBodyFat: parseFloat(idealBodyFat.toFixed(1)),
+      differenceFromIdeal: parseFloat(differenceFromIdeal.toFixed(1)),
+      ageAnalysis,
+      recommendations,
+      bodyFatToLose: differenceFromIdeal > 0 ? parseFloat(differenceFromIdeal.toFixed(1)) : 0
+    };
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'excellent': return 'text-green-600 bg-green-100';
@@ -352,6 +506,8 @@ const BodyAssessment = () => {
 
   const downloadReport = () => {
     if (!results) return;
+
+    const notes = assessmentData.notes || '';
 
     const reportContent = `
 BODY COMPOSITION ASSESSMENT REPORT - BitFit Pro
@@ -386,7 +542,11 @@ Resting Heart Rate:
 
 OVERALL HEALTH SCORE: ${results.overallScore}/100
 
-PERSONALIZED RECOMMENDATIONS:
+${notes ? `NOTES:
+======
+${notes}
+
+` : ''}PERSONALIZED RECOMMENDATIONS:
 ============================
 ${results.recommendations.map((rec, index) => `${index + 1}. ${rec}`).join('\n')}
 
@@ -631,7 +791,10 @@ Please consult with a healthcare provider for comprehensive health evaluation an
           <BodyCompositionTab 
             bodyCompositionData={bodyCompositionData}
             setBodyCompositionData={setBodyCompositionData}
+            bodyFatCalculatorData={bodyFatCalculatorData}
+            setBodyFatCalculatorData={setBodyFatCalculatorData}
             assessBodyComposition={assessBodyComposition}
+            calculateBodyFatPercentage={calculateBodyFatPercentage}
             getStatusColor={getStatusColor}
             getStatusIcon={getStatusIcon}
           />
@@ -796,6 +959,23 @@ const BasicAssessmentTab = ({
           </select>
         </div>
 
+        {/* Notes Field */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Notes (Optional)
+          </label>
+          <textarea
+            value={assessmentData.notes}
+            onChange={(e) => setAssessmentData({...assessmentData, notes: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Add any notes about measurement conditions, time of day, recent activities, etc..."
+            rows={3}
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Example: "Measured in morning, after light breakfast, feeling well"
+          </p>
+        </div>
+
         <button
           onClick={calculateAssessment}
           disabled={!assessmentData.height || !assessmentData.weight || !assessmentData.waist || !assessmentData.hip || !assessmentData.systolicBP || !assessmentData.diastolicBP || !assessmentData.restingHeartRate || !assessmentData.age}
@@ -937,12 +1117,17 @@ const BasicAssessmentTab = ({
 const BodyCompositionTab = ({ 
   bodyCompositionData, 
   setBodyCompositionData, 
+  bodyFatCalculatorData,
+  setBodyFatCalculatorData,
   assessBodyComposition, 
+  calculateBodyFatPercentage,
   getStatusColor, 
   getStatusIcon 
 }: any) => {
   const [compositionResults, setCompositionResults] = useState<any[]>([]);
   const [showCompositionResults, setShowCompositionResults] = useState(false);
+  const [bodyFatResult, setBodyFatResult] = useState<any>(null);
+  const [showBodyFatResult, setShowBodyFatResult] = useState(false);
 
   const calculateComposition = () => {
     const results = assessBodyComposition(bodyCompositionData);
@@ -950,180 +1135,454 @@ const BodyCompositionTab = ({
     setShowCompositionResults(true);
   };
 
+  const calculateBodyFat = () => {
+    const result = calculateBodyFatPercentage(bodyFatCalculatorData);
+    if (result) {
+      setBodyFatResult(result);
+      setShowBodyFatResult(true);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Input Form */}
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
-          <Zap className="h-6 w-6 mr-2" />
-          Body Composition Input
-        </h2>
+    <div className="space-y-6">
+      {/* Adjacent Panels Layout */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {/* Body Fat Calculator Panel */}
+        <div className="bg-white rounded-xl shadow-lg p-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <Calculator className="h-6 w-6 mr-2" />
+            Body Fat Calculator (U.S. Navy Method)
+          </h2>
 
-        <div className="space-y-6">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="text-sm text-blue-700">
-              <strong>Note:</strong> These measurements are typically obtained from a body composition analyzer 
-              (like DEXA scan, BodPod, or bioelectrical impedance scale). Enter the values from your recent assessment.
-            </p>
+          <div className="space-y-6">
+            <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+              <div className="flex items-start space-x-2">
+                <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-yellow-800">Important Disclaimer</h4>
+                  <p className="text-sm text-yellow-700 mt-1">
+                    This calculator provides an estimate based on the U.S. Navy method and may not be accurate for all individuals. 
+                    It should only be used for high-level guidance. For precise body composition analysis, consult with a healthcare 
+                    professional or use advanced methods like DEXA scans.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Gender
+                  </label>
+                  <select
+                    value={bodyFatCalculatorData.gender}
+                    onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, gender: e.target.value as 'male' | 'female'})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Age (years)
+                  </label>
+                  <input
+                    type="number"
+                    value={bodyFatCalculatorData.age}
+                    onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, age: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="30"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Height (cm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyFatCalculatorData.height}
+                    onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, height: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="175"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Neck Circumference (cm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyFatCalculatorData.neck}
+                    onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, neck: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="38"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Waist Circumference (cm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyFatCalculatorData.waist}
+                    onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, waist: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="85"
+                  />
+                </div>
+
+                {bodyFatCalculatorData.gender === 'female' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Hip Circumference (cm)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={bodyFatCalculatorData.hip}
+                      onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, hip: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="95"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Notes Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Notes (Optional)
+              </label>
+              <textarea
+                value={bodyFatCalculatorData.notes}
+                onChange={(e) => setBodyFatCalculatorData({...bodyFatCalculatorData, notes: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Add any notes about measurement technique, conditions, or observations..."
+                rows={3}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Example: "Measured with tape measure, relaxed state, morning measurement"
+              </p>
+            </div>
+
+            <button
+              onClick={calculateBodyFat}
+              disabled={!bodyFatCalculatorData.height || !bodyFatCalculatorData.neck || !bodyFatCalculatorData.waist || !bodyFatCalculatorData.age || (bodyFatCalculatorData.gender === 'female' && !bodyFatCalculatorData.hip)}
+              className="w-full bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Calculate Body Fat Percentage
+            </button>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <div className="flex items-center space-x-2">
-                  <User className="h-4 w-4" />
-                  <span>Body Fat Percentage (%)</span>
-                </div>
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={bodyCompositionData.bodyFatPercentage}
-                onChange={(e) => setBodyCompositionData({...bodyCompositionData, bodyFatPercentage: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="15.5"
-              />
+        {/* Body Composition Input Panel */}
+        <div className="bg-white rounded-xl shadow-lg p-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <Zap className="h-6 w-6 mr-2" />
+            Body Composition Input
+          </h2>
+
+          <div className="space-y-6">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="text-sm text-blue-700">
+                <strong>Note:</strong> These measurements are typically obtained from a body composition analyzer 
+                (like DEXA scan, BodPod, or bioelectrical impedance scale). Enter the values from your recent assessment.
+              </p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <div className="flex items-center space-x-2">
-                  <Zap className="h-4 w-4" />
-                  <span>Skeletal Muscle Mass (%)</span>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <User className="h-4 w-4" />
+                      <span>Body Fat Percentage (%)</span>
+                    </div>
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyCompositionData.bodyFatPercentage}
+                    onChange={(e) => setBodyCompositionData({...bodyCompositionData, bodyFatPercentage: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="15.5"
+                  />
                 </div>
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={bodyCompositionData.skeletalMuscle}
-                onChange={(e) => setBodyCompositionData({...bodyCompositionData, skeletalMuscle: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="35.2"
-              />
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <Zap className="h-4 w-4" />
+                      <span>Skeletal Muscle Mass (%)</span>
+                    </div>
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyCompositionData.skeletalMuscle}
+                    onChange={(e) => setBodyCompositionData({...bodyCompositionData, skeletalMuscle: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="35.2"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <Droplets className="h-4 w-4" />
+                      <span>Body Water Percentage (%)</span>
+                    </div>
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyCompositionData.bodyWater}
+                    onChange={(e) => setBodyCompositionData({...bodyCompositionData, bodyWater: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="55.8"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <AlertCircle className="h-4 w-4" />
+                      <span>Visceral Fat Level</span>
+                    </div>
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyCompositionData.visceralFat}
+                    onChange={(e) => setBodyCompositionData({...bodyCompositionData, visceralFat: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="8"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <Scale className="h-4 w-4" />
+                      <span>Bone Mass (kg)</span>
+                    </div>
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={bodyCompositionData.boneMass}
+                    onChange={(e) => setBodyCompositionData({...bodyCompositionData, boneMass: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="3.2"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <TrendingUp className="h-4 w-4" />
+                      <span>Metabolic Age (years)</span>
+                    </div>
+                  </label>
+                  <input
+                    type="number"
+                    value={bodyCompositionData.metabolicAge}
+                    onChange={(e) => setBodyCompositionData({...bodyCompositionData, metabolicAge: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="28"
+                  />
+                </div>
+              </div>
             </div>
 
+            {/* Notes Field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <div className="flex items-center space-x-2">
-                  <Droplets className="h-4 w-4" />
-                  <span>Body Water Percentage (%)</span>
-                </div>
+                Notes (Optional)
               </label>
-              <input
-                type="number"
-                step="0.1"
-                value={bodyCompositionData.bodyWater}
-                onChange={(e) => setBodyCompositionData({...bodyCompositionData, bodyWater: e.target.value})}
+              <textarea
+                value={bodyCompositionData.notes}
+                onChange={(e) => setBodyCompositionData({...bodyCompositionData, notes: e.target.value})}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="55.8"
+                placeholder="Add any notes about the measurement device, conditions, or observations..."
+                rows={3}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Example: "DEXA scan results, measured at clinic, fasted state"
+              </p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <div className="flex items-center space-x-2">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>Visceral Fat Level</span>
-                </div>
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={bodyCompositionData.visceralFat}
-                onChange={(e) => setBodyCompositionData({...bodyCompositionData, visceralFat: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="8"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <div className="flex items-center space-x-2">
-                  <Scale className="h-4 w-4" />
-                  <span>Bone Mass (kg)</span>
-                </div>
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={bodyCompositionData.boneMass}
-                onChange={(e) => setBodyCompositionData({...bodyCompositionData, boneMass: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="3.2"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <div className="flex items-center space-x-2">
-                  <TrendingUp className="h-4 w-4" />
-                  <span>Metabolic Age (years)</span>
-                </div>
-              </label>
-              <input
-                type="number"
-                value={bodyCompositionData.metabolicAge}
-                onChange={(e) => setBodyCompositionData({...bodyCompositionData, metabolicAge: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="28"
-              />
-            </div>
+            <button
+              onClick={calculateComposition}
+              disabled={!bodyCompositionData.bodyFatPercentage && !bodyCompositionData.skeletalMuscle && !bodyCompositionData.bodyWater}
+              className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Analyze Body Composition
+            </button>
           </div>
-
-          <button
-            onClick={calculateComposition}
-            disabled={!bodyCompositionData.bodyFatPercentage && !bodyCompositionData.skeletalMuscle && !bodyCompositionData.bodyWater}
-            className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Analyze Body Composition
-          </button>
         </div>
       </div>
 
-      {/* Results */}
-      {showCompositionResults && compositionResults.length > 0 && (
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
-            <TrendingUp className="h-6 w-6 mr-2" />
-            Body Composition Analysis
-          </h2>
-
-          <div className="space-y-4">
-            {compositionResults.map((result, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold">{result.name}</span>
-                  <div className={`flex items-center space-x-2 px-3 py-1 rounded-full ${getStatusColor(result.status)}`}>
-                    {getStatusIcon(result.status)}
-                    <span className="text-sm font-medium">{result.status.toUpperCase()}</span>
-                  </div>
-                </div>
-                <div className="text-2xl font-bold text-gray-800 mb-1">{result.value}</div>
-                <div className="text-sm text-gray-600 mb-2">{result.category}</div>
-                <div className="text-sm text-gray-700">{result.description}</div>
+      {/* Results Section */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {/* Body Fat Calculator Results */}
+        {showBodyFatResult && bodyFatResult && (
+          <div className="bg-orange-50 border border-orange-200 p-6 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Estimated Body Fat Percentage</h3>
+            
+            {/* Main Result */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-3xl font-bold text-orange-600">{bodyFatResult.percentage}%</div>
+              <div className={`flex items-center space-x-2 px-3 py-1 rounded-full ${getStatusColor(bodyFatResult.status)}`}>
+                {getStatusIcon(bodyFatResult.status)}
+                <span className="text-sm font-medium">{bodyFatResult.status.toUpperCase()}</span>
               </div>
-            ))}
-          </div>
+            </div>
+            
+            <div className="text-sm text-gray-600 mb-2">{bodyFatResult.category}</div>
+            <div className="text-sm text-gray-700 mb-4">{bodyFatResult.description}</div>
 
-          <div className="mt-6 bg-purple-50 p-6 rounded-lg">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Body Composition Insights</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                <span>Body composition provides more detailed insights than BMI alone</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                <span>Focus on maintaining healthy muscle mass and reducing excess body fat</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                <span>Regular strength training helps improve body composition</span>
-              </li>
-            </ul>
+            {/* Age-Based Analysis */}
+            <div className="bg-white border border-orange-200 p-4 rounded-lg mb-4">
+              <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
+                <TrendingUp className="h-4 w-4 mr-2" />
+                Age-Based Analysis (Jackson & Pollock)
+              </h4>
+              <div className="grid grid-cols-1 gap-2 text-sm mb-3">
+                <div>
+                  <span className="text-gray-600">Ideal for your age ({bodyFatCalculatorData.age}):</span>
+                  <span className="font-semibold text-blue-600 ml-2">{bodyFatResult.idealBodyFat}%</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Difference from ideal:</span>
+                  <span className={`font-semibold ml-2 ${
+                    bodyFatResult.differenceFromIdeal > 0 ? 'text-red-600' : 'text-green-600'
+                  }`}>
+                    {bodyFatResult.differenceFromIdeal > 0 ? '+' : ''}{bodyFatResult.differenceFromIdeal}%
+                  </span>
+                </div>
+              </div>
+              <div className="text-sm text-gray-700 mb-3">
+                {bodyFatResult.ageAnalysis}
+              </div>
+              
+              {/* Personalized Recommendations */}
+              {bodyFatResult.recommendations && bodyFatResult.recommendations.length > 0 && (
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <h5 className="font-medium text-blue-800 mb-2">Personalized Recommendations:</h5>
+                  <ul className="space-y-1">
+                    {bodyFatResult.recommendations.map((rec: string, index: number) => (
+                      <li key={index} className="flex items-start space-x-2 text-sm text-blue-700">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <span>{rec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Body Fat to Lose (if applicable) */}
+            {bodyFatResult.bodyFatToLose > 0 && (
+              <div className="bg-red-50 border border-red-200 p-4 rounded-lg mb-4">
+                <h4 className="font-semibold text-red-800 mb-2">Body Fat Reduction Goal</h4>
+                <div className="text-sm text-red-700">
+                  To reach the ideal body fat percentage for your age, you would need to reduce your body fat by approximately <strong>{bodyFatResult.bodyFatToLose}%</strong>.
+                </div>
+                <div className="text-xs text-red-600 mt-2">
+                  *This is an estimate. Consult with a fitness professional for a personalized plan.
+                </div>
+              </div>
+            )}
+
+            {/* Reference Standards */}
+            <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-800 mb-2">ACE Standards</h4>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="space-y-1">
+                  <div className="font-medium text-blue-700">Women:</div>
+                  <div>Essential: 10-13%</div>
+                  <div>Athletes: 14-20%</div>
+                  <div>Fitness: 21-24%</div>
+                  <div>Average: 25-31%</div>
+                  <div>Obese: 32%+</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="font-medium text-blue-700">Men:</div>
+                  <div>Essential: 2-5%</div>
+                  <div>Athletes: 6-13%</div>
+                  <div>Fitness: 14-17%</div>
+                  <div>Average: 18-24%</div>
+                  <div>Obese: 25%+</div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Body Composition Results */}
+        {showCompositionResults && compositionResults.length > 0 && (
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
+              <TrendingUp className="h-6 w-6 mr-2" />
+              Body Composition Analysis
+            </h2>
+
+            <div className="space-y-4">
+              {compositionResults.map((result, index) => (
+                <div key={index} className="border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-semibold">{result.name}</span>
+                    <div className={`flex items-center space-x-2 px-3 py-1 rounded-full ${getStatusColor(result.status)}`}>
+                      {getStatusIcon(result.status)}
+                      <span className="text-sm font-medium">{result.status.toUpperCase()}</span>
+                    </div>
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800 mb-1">{result.value}</div>
+                  <div className="text-sm text-gray-600 mb-2">{result.category}</div>
+                  <div className="text-sm text-gray-700">{result.description}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 bg-purple-50 p-6 rounded-lg">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Body Composition Insights</h3>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Body composition provides more detailed insights than BMI alone</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Focus on maintaining healthy muscle mass and reducing excess body fat</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Regular strength training helps improve body composition</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

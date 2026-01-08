@@ -47,12 +47,6 @@ const Navbar = () => {
                 Muscle Build
               </Link>
               <Link 
-                to="/stress-relief" 
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Stress Relief
-              </Link>
-              <Link 
                 to="/exercises-anywhere" 
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
@@ -98,6 +92,13 @@ const Navbar = () => {
                         onClick={() => setShowUserMenu(false)}
                       >
                         Cardiovascular Assessment
+                      </Link>
+                      <Link
+                        to="/strength-assessment"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        Strength Assessment
                       </Link>
                       <button
                         onClick={handleSignOut}

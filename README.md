@@ -76,12 +76,6 @@ Each program page includes:
 - Training phases from foundation to peak
 - Nutrition optimization for muscle growth
 
-#### Stress Relief (`/stress-relief`)
-- 8-week holistic wellness program
-- Mindful movement and breathing techniques
-- Lifestyle integration strategies
-- Mind-body connection focus
-
 #### Exercises Anywhere (`/exercises-anywhere`)
 - Bodyweight exercise library
 - No equipment required

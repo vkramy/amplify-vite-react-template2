@@ -1,0 +1,776 @@
+
+{
+  "benchPressBenchmarking": {
+    "title": "Bench Press Strength Standards",
+    "description": "Strength benchmarks for bench press based on body weight ratio (1RM/Body Weight in pounds)",
+    "ageGroups": ["20-29", "30-39", "40-49", "50-59", "60+"],
+    "standards": {
+      "men": [
+        {
+          "rating": "Excellent",
+          "ageRanges": {
+            "20-29": ">1.26",
+            "30-39": ">1.08",
+            "40-49": ">0.97",
+            "50-59": ">0.86",
+            "60+": ">0.75"
+          }
+        },
+        {
+          "rating": "Good",
+          "ageRanges": {
+            "20-29": "1.17-1.25",
+            "30-39": "1.01-1.07",
+            "40-49": "0.91-0.96",
+            "50-59": "0.81-0.85",
+            "60+": "0.74-0.77"
+          }
+        },
+        {
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "0.97-1.16",
+            "30-39": "0.86-1.00",
+            "40-49": "0.78-0.90",
+            "50-59": "0.70-0.80",
+            "60+": "0.64-0.73"
+          }
+        },
+        {
+          "rating": "Fair",
+          "ageRanges": {
+            "20-29": "0.88-0.96",
+            "30-39": "0.79-0.85",
+            "40-49": "0.72-0.77",
+            "50-59": "0.65-0.69",
+            "60+": "0.60-0.63"
+          }
+        },
+        {
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "<0.87",
+            "30-39": "<0.78",
+            "40-49": "<0.71",
+            "50-59": "<0.64",
+            "60+": "<0.59"
+          }
+        }
+      ],
+      "women": [
+        {
+          "rating": "Excellent",
+          "ageRanges": {
+            "20-29": ">0.78",
+            "30-39": ">0.66",
+            "40-49": ">0.61",
+            "50-59": ">0.54",
+            "60+": ">0.55"
+          }
+        },
+        {
+          "rating": "Good",
+          "ageRanges": {
+            "20-29": "0.72-0.77",
+            "30-39": "0.62-0.65",
+            "40-49": "0.57-0.60",
+            "50-59": "0.53-0.59",
+            "60+": "0.51-0.54"
+          }
+        },
+        {
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "0.59-0.71",
+            "30-39": "0.53-0.61",
+            "40-49": "0.48-0.56",
+            "50-59": "0.43-0.50",
+            "60+": "0.40-0.50"
+          }
+        },
+        {
+          "rating": "Fair",
+          "ageRanges": {
+            "20-29": "0.53-0.58",
+            "30-39": "0.49-0.52",
+            "40-49": "0.44-0.47",
+            "50-59": "0.40-0.42",
+            "60+": "0.37-0.40"
+          }
+        }
+      ]
+    },
+    "instructions": {
+      "title": "How to Perform the Bench Press",
+      "steps": [
+        "Lie flat on the bench with your eyes directly under the barbell",
+        "Plant your feet firmly on the floor, maintaining contact throughout the movement",
+        "Grip the barbell slightly wider than shoulder-width apart",
+        "Unrack the bar and position it directly above your chest with arms fully extended",
+        "Lower the bar in a controlled manner to your mid-chest, keeping elbows at approximately 45-degree angle",
+        "Pause briefly when the bar touches your chest",
+        "Press the bar back up explosively to the starting position, fully extending your arms",
+        "Maintain shoulder blade retraction and keep your upper back tight throughout"
+      ],
+      "safetyTips": [
+        "Always use a spotter when attempting heavy weights",
+        "Warm up thoroughly before attempting your one-rep max",
+        "Keep your wrists straight and aligned with your forearms",
+        "Avoid bouncing the bar off your chest",
+        "Breathe out during the pressing phase and in during the lowering phase"
+      ]
+    },
+    "oneRepMax": {
+      "title": "One Rep Max (1RM) Calculation",
+      "description": "Your 1RM is the maximum weight you can lift for one complete repetition with proper form",
+      "formulas": [
+        {
+          "name": "Epley Formula",
+          "formula": "1RM = weight × (1 + reps / 30)",
+          "description": "Most commonly used formula for estimating 1RM"
+        },
+        {
+          "name": "Brzycki Formula",
+          "formula": "1RM = weight × (36 / (37 - reps))",
+          "description": "Alternative formula, often more accurate for higher rep ranges"
+        },
+        {
+          "name": "Direct Testing",
+          "formula": "1RM = maximum weight lifted for 1 rep",
+          "description": "Most accurate but requires proper warm-up and safety precautions"
+        }
+      ],
+      "note": "For safety and accuracy, it's recommended to test 1RM using 3-5 rep max and applying the formula rather than attempting a true 1RM"
+    },
+    "measurement": {
+      "title": "How to Measure Your Bench Press Strength",
+      "steps": [
+        {
+          "step": 1,
+          "description": "Determine your body weight in pounds"
+        },
+        {
+          "step": 2,
+          "description": "Calculate or test your one-rep max (1RM) using proper form"
+        },
+        {
+          "step": 3,
+          "description": "Divide your 1RM by your body weight to get your ratio"
+        },
+        {
+          "step": 4,
+          "description": "Compare your ratio to the standards table based on your age and gender"
+        }
+      ],
+      "example": {
+        "scenario": "A 30-year-old male weighing 180 pounds with a 1RM of 200 pounds",
+        "calculation": "200 ÷ 180 = 1.11",
+        "rating": "Good (falls within 1.01-1.07 range for 30-39 age group)"
+      },
+      "units": "All measurements are in pounds. Body weight and 1RM should both be measured in the same unit."
+    },
+    "progressionTips": [
+      "Test your 1RM every 8-12 weeks to track progress",
+      "Focus on progressive overload by gradually increasing weight or reps",
+      "Maintain proper form over lifting heavier weights",
+      "Include accessory exercises like dumbbell press, push-ups, and tricep work",
+      "Ensure adequate rest (48-72 hours) between heavy bench press sessions"
+    ]
+  },
+  "legPressBenchmarking": {
+    "title": "Leg Press Strength Standards",
+    "description": "Strength benchmarks for leg press (seated or lying) based on body weight ratio (1RM/Body Weight in pounds)",
+    "ageGroups": ["20-29", "30-39", "40-49", "50-59", "60+"],
+    "standards": {
+      "men": [
+        {
+          "rating": "Excellent",
+          "ageRanges": {
+            "20-29": ">2.08",
+            "30-39": ">1.88",
+            "40-49": ">1.76",
+            "50-59": ">1.66",
+            "60+": ">1.56"
+          }
+        },
+        {
+          "rating": "Good",
+          "ageRanges": {
+            "20-29": "2.00-2.07",
+            "30-39": "1.80-1.87",
+            "40-49": "1.70-1.75",
+            "50-59": "1.60-1.65",
+            "60+": "1.50-1.55"
+          }
+        },
+        {
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "1.83-1.99",
+            "30-39": "1.63-1.79",
+            "40-49": "1.56-1.69",
+            "50-59": "1.46-1.59",
+            "60+": "1.37-1.49"
+          }
+        },
+        {
+          "rating": "Fair",
+          "ageRanges": {
+            "20-29": "1.65-1.82",
+            "30-39": "1.55-1.62",
+            "40-49": "1.50-1.55",
+            "50-59": "1.40-1.45",
+            "60+": "1.31-1.36"
+          }
+        },
+        {
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "<1.64",
+            "30-39": "<1.54",
+            "40-49": "<1.49",
+            "50-59": "<1.39",
+            "60+": "<1.30"
+          }
+        }
+      ],
+      "women": [
+        {
+          "rating": "Excellent",
+          "ageRanges": {
+            "20-29": ">1.63",
+            "30-39": ">1.42",
+            "40-49": ">1.32",
+            "50-59": ">1.26",
+            "60+": ">1.15"
+          }
+        },
+        {
+          "rating": "Good",
+          "ageRanges": {
+            "20-29": "1.54-1.62",
+            "30-39": "1.35-1.41",
+            "40-49": "1.26-1.31",
+            "50-59": "1.13-1.25",
+            "60+": "1.08-1.14"
+          }
+        },
+        {
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "1.35-1.53",
+            "30-39": "1.20-1.34",
+            "40-49": "1.12-1.25",
+            "50-59": "0.99-1.12",
+            "60+": "0.92-1.07"
+          }
+        },
+        {
+          "rating": "Fair",
+          "ageRanges": {
+            "20-29": "1.25-1.34",
+            "30-39": "1.13-1.19",
+            "40-49": "1.06-1.11",
+            "50-59": "0.86-0.98",
+            "60+": "0.85-0.91"
+          }
+        },
+        {
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "<1.24",
+            "30-39": "<1.12",
+            "40-49": "<1.05",
+            "50-59": "<0.85",
+            "60+": "<0.84"
+          }
+        }
+      ]
+    },
+    "instructions": {
+      "title": "How to Perform the Leg Press",
+      "seatedLegPress": {
+        "steps": [
+          "Sit in the leg press machine with your back flat against the padded support",
+          "Place your feet on the platform at shoulder-width apart, toes pointed slightly outward",
+          "Position your feet in the middle to upper portion of the platform",
+          "Release the safety bars and extend your legs without locking your knees",
+          "Lower the weight in a controlled manner by bending your knees toward your chest",
+          "Stop when your knees reach approximately 90 degrees or your thighs are parallel to the platform",
+          "Push through your heels to extend your legs back to the starting position",
+          "Keep your lower back pressed against the pad throughout the movement"
+        ]
+      },
+      "lyingLegPress": {
+        "steps": [
+          "Lie back on the leg press machine with your back and head resting against the padded support",
+          "Place your feet on the footplate at shoulder-width apart, centered on the platform",
+          "Grip the handles on the sides for stability",
+          "Release the safety handles and hold the platform with slightly bent knees",
+          "Lower the platform by bending your knees in a controlled manner",
+          "Continue until your knees are at approximately 90 degrees",
+          "Press through your heels and midfoot to push the platform back up",
+          "Avoid locking your knees at the top of the movement"
+        ]
+      },
+      "safetyTips": [
+        "Never lock your knees at full extension",
+        "Keep your lower back flat against the pad to avoid injury",
+        "Don't let your knees cave inward during the movement",
+        "Avoid lowering the weight too far (past 90 degrees) if you have knee issues",
+        "Always engage the safety stops before releasing the weight",
+        "Breathe out during the pressing phase and in during the lowering phase",
+        "Start with lighter weights to master proper form"
+      ]
+    },
+    "oneRepMax": {
+      "title": "One Rep Max (1RM) Calculation for Leg Press",
+      "description": "Your 1RM is the maximum weight you can press for one complete repetition with proper form",
+      "formulas": [
+        {
+          "name": "Epley Formula",
+          "formula": "1RM = weight × (1 + reps / 30)",
+          "description": "Most commonly used formula for estimating 1RM"
+        },
+        {
+          "name": "Brzycki Formula",
+          "formula": "1RM = weight × (36 / (37 - reps))",
+          "description": "Alternative formula, particularly useful for leg press calculations"
+        },
+        {
+          "name": "Lombardi Formula",
+          "formula": "1RM = weight × reps^0.1",
+          "description": "Another reliable option for lower body exercises"
+        },
+        {
+          "name": "Direct Testing",
+          "formula": "1RM = maximum weight pressed for 1 rep",
+          "description": "Most accurate but requires thorough warm-up and spotter assistance"
+        }
+      ],
+      "note": "For leg press, it's recommended to test using a 5-8 rep max and calculate 1RM using a formula, as direct 1RM testing can be risky for the knees and lower back"
+    },
+    "measurement": {
+      "title": "How to Measure Your Leg Press Strength",
+      "steps": [
+        {
+          "step": 1,
+          "description": "Determine your body weight in pounds"
+        },
+        {
+          "step": 2,
+          "description": "Perform a proper warm-up with progressive weight increases"
+        },
+        {
+          "step": 3,
+          "description": "Calculate your one-rep max (1RM) using a 5-8 rep test and formula"
+        },
+        {
+          "step": 4,
+          "description": "Divide your 1RM by your body weight to get your strength ratio"
+        },
+        {
+          "step": 5,
+          "description": "Compare your ratio to the standards table based on your age and gender"
+        }
+      ],
+      "example": {
+        "scenario": "A 35-year-old female weighing 140 pounds who can leg press 300 pounds for 5 reps",
+        "calculation": "1RM = 300 × (1 + 5/30) = 300 × 1.167 = 350 pounds. Ratio: 350 ÷ 140 = 2.5",
+        "rating": "Excellent (>1.42 for 30-39 age group, she scores 2.5)"
+      },
+      "units": "All measurements are in pounds. Body weight and 1RM should both be measured in the same unit.",
+      "machineNote": "Results may vary between seated and lying leg press machines. For consistency, always use the same machine type when tracking progress."
+    },
+    "progressionTips": [
+      "Test your 1RM every 8-12 weeks to monitor improvements",
+      "Focus on full range of motion rather than just adding weight",
+      "Include unilateral exercises like single-leg press to address imbalances",
+      "Vary foot placement (high, low, wide, narrow) to target different muscle groups",
+      "Incorporate complementary exercises like squats, lunges, and deadlifts",
+      "Allow 48-72 hours of rest between heavy leg press sessions",
+      "Maintain proper form even when fatigued to prevent knee and back injuries",
+      "Track both weight and reps to monitor overall volume progression"
+    ],
+    "muscleGroups": {
+      "primary": ["Quadriceps", "Glutes"],
+      "secondary": ["Hamstrings", "Calves", "Hip adductors"],
+      "stabilizers": ["Core muscles", "Lower back"]
+    }
+  },
+  "pushUpBenchmarking": {
+    "title": "Push-Up Strength Standards",
+    "description": "Push-up endurance benchmarks by percentile ranking based on age and gender (number of consecutive push-ups)",
+    "ageGroups": ["20-29", "30-39", "40-49", "50-59", "60-69"],
+    "standards": {
+      "men": [
+        {
+          "percentile": "90th",
+          "rating": "Excellent",
+          "ageRanges": {
+            "20-29": "41+",
+            "30-39": "32+",
+            "40-49": "25+",
+            "50-59": "24+",
+            "60-69": "24+"
+          }
+        },
+        {
+          "percentile": "80th",
+          "rating": "Above Average",
+          "ageRanges": {
+            "20-29": "34",
+            "30-39": "27",
+            "40-49": "21",
+            "50-59": "17",
+            "60-69": "16"
+          }
+        },
+        {
+          "percentile": "70th",
+          "rating": "Above Average",
+          "ageRanges": {
+            "20-29": "30",
+            "30-39": "24",
+            "40-49": "19",
+            "50-59": "14",
+            "60-69": "11"
+          }
+        },
+        {
+          "percentile": "60th",
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "27",
+            "30-39": "21",
+            "40-49": "16",
+            "50-59": "11",
+            "60-69": "10"
+          }
+        },
+        {
+          "percentile": "50th",
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "24",
+            "30-39": "19",
+            "40-49": "13",
+            "50-59": "10",
+            "60-69": "9"
+          }
+        },
+        {
+          "percentile": "40th",
+          "rating": "Below Average",
+          "ageRanges": {
+            "20-29": "21",
+            "30-39": "16",
+            "40-49": "12",
+            "50-59": "9",
+            "60-69": "7"
+          }
+        },
+        {
+          "percentile": "30th",
+          "rating": "Below Average",
+          "ageRanges": {
+            "20-29": "18",
+            "30-39": "14",
+            "40-49": "10",
+            "50-59": "7",
+            "60-69": "6"
+          }
+        },
+        {
+          "percentile": "20th",
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "16",
+            "30-39": "11",
+            "40-49": "8",
+            "50-59": "6",
+            "60-69": "4"
+          }
+        },
+        {
+          "percentile": "10th",
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "11",
+            "30-39": "8",
+            "40-49": "5",
+            "50-59": "4",
+            "60-69": "2"
+          }
+        }
+      ],
+      "women": [
+        {
+          "percentile": "90th",
+          "rating": "Excellent",
+          "ageRanges": {
+            "20-29": "31+",
+            "30-39": "27+",
+            "40-49": "25+",
+            "50-59": "19+",
+            "60-69": "18+"
+          }
+        },
+        {
+          "percentile": "80th",
+          "rating": "Above Average",
+          "ageRanges": {
+            "20-29": "27",
+            "30-39": "22",
+            "40-49": "21",
+            "50-59": "17",
+            "60-69": "15"
+          }
+        },
+        {
+          "percentile": "70th",
+          "rating": "Above Average",
+          "ageRanges": {
+            "20-29": "21",
+            "30-39": "20",
+            "40-49": "17",
+            "50-59": "13",
+            "60-69": "13"
+          }
+        },
+        {
+          "percentile": "60th",
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "19",
+            "30-39": "17",
+            "40-49": "16",
+            "50-59": "12",
+            "60-69": "11"
+          }
+        },
+        {
+          "percentile": "50th",
+          "rating": "Average",
+          "ageRanges": {
+            "20-29": "18",
+            "30-39": "16",
+            "40-49": "14",
+            "50-59": "11",
+            "60-69": "9"
+          }
+        },
+        {
+          "percentile": "40th",
+          "rating": "Below Average",
+          "ageRanges": {
+            "20-29": "14",
+            "30-39": "13",
+            "40-49": "11",
+            "50-59": "9",
+            "60-69": "6"
+          }
+        },
+        {
+          "percentile": "30th",
+          "rating": "Below Average",
+          "ageRanges": {
+            "20-29": "13",
+            "30-39": "10",
+            "40-49": "10",
+            "50-59": "6",
+            "60-69": "4"
+          }
+        },
+        {
+          "percentile": "20th",
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "10",
+            "30-39": "7",
+            "40-49": "8",
+            "50-59": "3",
+            "60-69": "0"
+          }
+        },
+        {
+          "percentile": "10th",
+          "rating": "Poor",
+          "ageRanges": {
+            "20-29": "6",
+            "30-39": "1",
+            "40-49": "4",
+            "50-59": "0",
+            "60-69": "0"
+          }
+        }
+      ]
+    },
+    "instructions": {
+      "title": "How to Perform a Proper Push-Up",
+      "standardPushUp": {
+        "steps": [
+          "Start in a plank position with hands placed slightly wider than shoulder-width apart",
+          "Position your hands directly under your shoulders with fingers pointing forward",
+          "Extend your legs straight back with feet hip-width apart or together",
+          "Engage your core and keep your body in a straight line from head to heels",
+          "Lower your body by bending your elbows until your chest nearly touches the floor",
+          "Keep your elbows at approximately 45 degrees from your body (not flared out)",
+          "Push through your palms to extend your arms and return to the starting position",
+          "Maintain a neutral spine throughout the movement - avoid sagging hips or raised buttocks",
+          "Complete the full range of motion for each repetition to count"
+        ]
+      },
+      "modifiedPushUp": {
+        "title": "Modified Push-Up (Knee Push-Up)",
+        "steps": [
+          "Start in a plank position but with knees on the ground",
+          "Place hands slightly wider than shoulder-width apart",
+          "Cross your ankles and keep them elevated slightly off the ground",
+          "Maintain a straight line from knees to head",
+          "Lower your chest toward the floor by bending your elbows",
+          "Push back up to the starting position",
+          "Keep core engaged throughout the movement"
+        ],
+        "note": "Modified push-ups are ideal for beginners building strength or when testing endurance"
+      },
+      "testingProtocol": {
+        "title": "Push-Up Test Protocol",
+        "steps": [
+          "Warm up with 5-10 minutes of light cardio and dynamic stretching",
+          "Perform 1-2 sets of 5-10 easy push-ups as specific warm-up",
+          "Rest for 2-3 minutes before beginning the test",
+          "Assume the standard push-up position",
+          "Begin on command and perform as many consecutive push-ups as possible",
+          "Maintain proper form throughout - improper form repetitions do not count",
+          "Continue until you cannot complete another full repetition with proper form",
+          "Record the total number of properly performed push-ups"
+        ],
+        "formRequirements": [
+          "Body must remain straight throughout the movement",
+          "Chest must come within 3-4 inches of the floor",
+          "Arms must fully extend at the top",
+          "No resting except in the up position",
+          "Continuous motion - excessive pausing between reps ends the test"
+        ]
+      },
+      "safetyTips": [
+        "Stop immediately if you experience shoulder, elbow, or wrist pain",
+        "Keep your head in a neutral position - don't look up or let it drop",
+        "Breathe regularly - inhale on the way down, exhale on the way up",
+        "If proper form cannot be maintained, stop the test",
+        "Allow at least 48 hours of rest before retesting",
+        "Consult a healthcare provider if you have any existing upper body injuries"
+      ]
+    },
+    "measurement": {
+      "title": "How to Measure Your Push-Up Strength",
+      "steps": [
+        {
+          "step": 1,
+          "description": "Determine your age group (20-29, 30-39, 40-49, 50-59, 60-69 years)"
+        },
+        {
+          "step": 2,
+          "description": "Warm up thoroughly with light cardio and dynamic stretching"
+        },
+        {
+          "step": 3,
+          "description": "Perform the push-up test following the standard protocol"
+        },
+        {
+          "step": 4,
+          "description": "Count only push-ups performed with proper form"
+        },
+        {
+          "step": 5,
+          "description": "Compare your total count to the standards table based on your age and gender"
+        }
+      ],
+      "example": {
+        "scenario": "A 35-year-old male who completes 28 consecutive push-ups",
+        "rating": "Above Average (falls at approximately 80th percentile for 30-39 age group)",
+        "interpretation": "This individual performs better than approximately 80% of men in his age group"
+      },
+      "percentileExplanation": {
+        "90th": "Excellent - Top 10% of population",
+        "70th-80th": "Above Average - Better than most people",
+        "40th-60th": "Average - Typical fitness level",
+        "20th-30th": "Below Average - Room for improvement",
+        "10th": "Poor - Significant improvement needed"
+      }
+    },
+    "progressionTips": [
+      "Test your maximum push-ups every 4-6 weeks to track progress",
+      "Practice push-ups 3-4 times per week with at least one rest day between sessions",
+      "Use progressive overload: increase reps, decrease rest time, or add variations",
+      "Include different push-up variations to target muscles differently",
+      "Strengthen supporting muscles with planks, shoulder presses, and tricep exercises",
+      "Focus on eccentric training (slow lowering phase) to build strength",
+      "Ensure adequate protein intake and recovery for muscle growth",
+      "If you can do 20+ push-ups easily, try advanced variations or weighted push-ups"
+    ],
+    "variations": {
+      "easier": [
+        {
+          "name": "Wall Push-Ups",
+          "description": "Stand facing a wall, place hands on wall at shoulder height, perform push-up against wall"
+        },
+        {
+          "name": "Incline Push-Ups",
+          "description": "Place hands on an elevated surface (bench, table) to reduce resistance"
+        },
+        {
+          "name": "Knee Push-Ups",
+          "description": "Perform push-ups with knees on the ground"
+        }
+      ],
+      "standard": [
+        {
+          "name": "Standard Push-Up",
+          "description": "Traditional push-up with hands shoulder-width apart"
+        },
+        {
+          "name": "Wide-Grip Push-Up",
+          "description": "Hands placed wider than shoulders to emphasize chest"
+        },
+        {
+          "name": "Diamond Push-Up",
+          "description": "Hands close together forming a diamond shape to target triceps"
+        }
+      ],
+      "advanced": [
+        {
+          "name": "Decline Push-Up",
+          "description": "Feet elevated on a platform to increase difficulty"
+        },
+        {
+          "name": "Plyometric Push-Up",
+          "description": "Explosive push-up where hands leave the ground"
+        },
+        {
+          "name": "One-Arm Push-Up",
+          "description": "Performed with one arm while the other is behind the back"
+        },
+        {
+          "name": "Weighted Push-Up",
+          "description": "Perform with a weight plate or weighted vest"
+        }
+      ]
+    },
+    "muscleGroups": {
+      "primary": ["Pectoralis major (chest)", "Triceps brachii", "Anterior deltoids (front shoulders)"],
+      "secondary": ["Serratus anterior", "Core muscles (rectus abdominis, obliques)", "Lower back stabilizers"],
+      "stabilizers": ["Rotator cuff muscles", "Trapezius", "Rhomboids", "Glutes"]
+    },
+    "benefits": [
+      "No equipment needed - can be performed anywhere",
+      "Functional exercise that mimics daily pushing movements",
+      "Builds upper body strength and muscular endurance",
+      "Engages multiple muscle groups simultaneously",
+      "Improves core stability and posture",
+      "Can be easily modified for all fitness levels",
+      "Excellent indicator of overall upper body fitness"
+    ]
+  }
+}

@@ -24,14 +24,6 @@ const Home = () => {
     },
     {
       id: 3,
-      title: 'Stress Relief Program',
-      description: 'Reduce stress and improve mental wellness through targeted fitness routines.',
-      icon: Heart,
-      link: '/stress-relief',
-      color: 'bg-green-500'
-    },
-    {
-      id: 4,
       title: 'Exercises Anywhere',
       description: 'Stay fit with bodyweight exercises you can do anywhere, anytime.',
       icon: MapPin,

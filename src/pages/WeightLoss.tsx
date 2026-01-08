@@ -1,4 +1,5 @@
-import { Download, Target, Clock, TrendingDown } from 'lucide-react';
+import { Download, Target, Clock, TrendingDown, Calculator } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import configData from '../config.json';
 
 // Type definition for config data
@@ -6,7 +7,6 @@ interface ConfigData {
   downloadUrls: {
     weightLoss: string;
     muscleBuild: string;
-    stressRelief: string;
     exercisesAnywhere: string;
   };
   timeout: number;
@@ -189,6 +189,152 @@ For personalized guidance and support, consult with our certified trainers and n
         </div>
       </section>
 
+      {/* Weight Loss Journey Plan */}
+      <section className="py-20 bg-blue-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Weight Loss Journey Plan</h2>
+            <p className="text-xl text-gray-600">Follow our step-by-step process to achieve your weight loss goals</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Step 1 */}
+            <div className="bg-white p-6 rounded-xl shadow-lg relative">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calculator className="h-8 w-8 text-white" />
+                </div>
+                <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-3 inline-block">
+                  Step 1
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">Use Calorie Calculator</h3>
+                <p className="text-gray-600 mb-4">
+                  Set your weight loss goals and calculate your daily calorie needs for sustainable results.
+                </p>
+                <Link 
+                  to="/calorie-calculator"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors inline-block"
+                >
+                  Calculate Now
+                </Link>
+              </div>
+              {/* Arrow for larger screens */}
+              <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+                <div className="w-8 h-0.5 bg-blue-300"></div>
+                <div className="w-0 h-0 border-l-4 border-l-blue-300 border-t-2 border-t-transparent border-b-2 border-b-transparent ml-6 -mt-1"></div>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white p-6 rounded-xl shadow-lg relative">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-green-500 to-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-white" />
+                </div>
+                <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mb-3 inline-block">
+                  Step 2
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">Assess Yourself</h3>
+                <p className="text-gray-600 mb-4">
+                  Complete comprehensive body and fitness assessments to understand your starting point.
+                </p>
+                <Link 
+                  to="/body-assessment"
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors inline-block"
+                >
+                  Start Assessment
+                </Link>
+              </div>
+              {/* Arrow for larger screens */}
+              <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+                <div className="w-8 h-0.5 bg-green-300"></div>
+                <div className="w-0 h-0 border-l-4 border-l-green-300 border-t-2 border-t-transparent border-b-2 border-b-transparent ml-6 -mt-1"></div>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white p-6 rounded-xl shadow-lg relative">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-purple-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingDown className="h-8 w-8 text-white" />
+                </div>
+                <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold mb-3 inline-block">
+                  Step 3
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">Plan with Your Trainer</h3>
+                <p className="text-gray-600 mb-4">
+                  Work with our certified trainers to create a personalized workout and nutrition plan.
+                </p>
+                <button 
+                  onClick={handleDownload}
+                  className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                >
+                  Get Guide
+                </button>
+              </div>
+              {/* Arrow for larger screens */}
+              <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+                <div className="w-8 h-0.5 bg-purple-300"></div>
+                <div className="w-0 h-0 border-l-4 border-l-purple-300 border-t-2 border-t-transparent border-b-2 border-b-transparent ml-6 -mt-1"></div>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-orange-500 to-orange-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="h-8 w-8 text-white" />
+                </div>
+                <div className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold mb-3 inline-block">
+                  Step 4
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">Become Your Own Trainer</h3>
+                <p className="text-gray-600 mb-4">
+                  Master the skills and knowledge to maintain your results and continue progressing independently.
+                </p>
+                <Link 
+                  to="/exercises-anywhere"
+                  className="bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-orange-700 transition-colors inline-block"
+                >
+                  Learn More
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Journey Timeline */}
+          <div className="mt-16 bg-white p-8 rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Your Journey Timeline</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="text-center">
+                <div className="bg-blue-100 p-4 rounded-lg mb-3">
+                  <h4 className="font-semibold text-blue-800">Week 1</h4>
+                  <p className="text-sm text-blue-600">Goal Setting & Assessment</p>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="bg-green-100 p-4 rounded-lg mb-3">
+                  <h4 className="font-semibold text-green-800">Weeks 2-4</h4>
+                  <p className="text-sm text-green-600">Foundation Building</p>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="bg-purple-100 p-4 rounded-lg mb-3">
+                  <h4 className="font-semibold text-purple-800">Weeks 5-8</h4>
+                  <p className="text-sm text-purple-600">Habit Formation</p>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="bg-orange-100 p-4 rounded-lg mb-3">
+                  <h4 className="font-semibold text-orange-800">Weeks 9-12</h4>
+                  <p className="text-sm text-orange-600">Independence & Mastery</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Program Phases */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
@@ -251,24 +397,41 @@ For personalized guidance and support, consult with our certified trainers and n
 
       {/* Download Guide Section */}
       <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-gray-800 mb-6">Download Your Complete Guide</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Get instant access to our comprehensive weight loss guide with meal plans, workout routines, and expert tips.
-          </p>
-          
-          <div className="bg-gradient-to-r from-red-500 to-pink-600 p-8 rounded-xl text-white">
-            <Download className="h-16 w-16 mx-auto mb-6" />
-            <h3 className="text-2xl font-bold mb-4">Complete Weight Loss Guide</h3>
-            <p className="mb-6">
-              Includes: 12-week workout plan, nutrition guidelines, meal prep ideas, progress tracking sheets, and success tips.
-            </p>
-            <button 
-              onClick={handleDownload}
-              className="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
-            >
-              Download Free Guide
-            </button>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Calorie Calculator */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-8 rounded-xl text-white">
+              <Calculator className="h-16 w-16 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-center">Calorie Calculator</h3>
+              <p className="mb-6 text-center">
+                Calculate your daily calorie needs and create a personalized weight loss timeline with our advanced calculator.
+              </p>
+              <div className="text-center">
+                <Link 
+                  to="/calorie-calculator"
+                  className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors inline-block"
+                >
+                  Calculate Calories
+                </Link>
+              </div>
+            </div>
+
+            {/* Download Guide */}
+            <div className="bg-gradient-to-r from-red-500 to-pink-600 p-8 rounded-xl text-white">
+              <Download className="h-16 w-16 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-center">Complete Weight Loss Guide</h3>
+              <p className="mb-6 text-center">
+                Get instant access to our comprehensive weight loss guide with meal plans, workout routines, and expert tips.
+              </p>
+              <div className="text-center">
+                <button 
+                  onClick={handleDownload}
+                  className="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
+                >
+                  Download Free Guide
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

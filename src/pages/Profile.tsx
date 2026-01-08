@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { fetchUserAttributes, updateUserAttributes } from 'aws-amplify/auth';
-import { User, Target, Activity, Award, Edit2, Save, X, TrendingUp, Heart } from 'lucide-react';
+import { User, Target, Activity, Award, Edit2, Save, X, TrendingUp, Heart, Calculator, Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface UserProfile {
@@ -511,6 +511,42 @@ const Profile = () => {
               >
                 <Heart className="h-4 w-4" />
                 <span>Take Cardio Test</span>
+              </Link>
+            </div>
+
+            {/* Strength Assessment Link */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <Dumbbell className="h-5 w-5 mr-2" />
+                Strength Assessment
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Test your strength with bench press, leg press, and push-up assessments. Get benchmarked results and personalized recommendations.
+              </p>
+              <Link
+                to="/strength-assessment"
+                className="inline-flex items-center space-x-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+              >
+                <Dumbbell className="h-4 w-4" />
+                <span>Take Strength Test</span>
+              </Link>
+            </div>
+
+            {/* Calorie Calculator Link */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <Calculator className="h-5 w-5 mr-2" />
+                Weight Loss Calculator
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Calculate your daily calorie needs and create a personalized weight loss timeline with graph visualization.
+              </p>
+              <Link
+                to="/calorie-calculator"
+                className="inline-flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              >
+                <Calculator className="h-4 w-4" />
+                <span>Calculate Calories</span>
               </Link>
             </div>
           </div>
